@@ -1,0 +1,10 @@
+# Install facenet-pytorch
+!pip install /kaggle/input/facenet-pytorch-vggface2/facenet_pytorch-2.2.7-py3-none-any.whl
+
+from facenet_pytorch.models.inception_resnet_v1 import get_torch_home
+torch_home = get_torch_home()
+
+# Copy model checkpoints to torch cache so they are loaded automatically by the package
+!mkdir -p $torch_home/checkpoints/
+!cp /kaggle/input/facenet-pytorch-vggface2/20180402-114759-vggface2-logits.pth $torch_home/checkpoints/vggface2_DG3kwML46X.pt
+!cp /kaggle/input/facenet-pytorch-vggface2/20180402-114759-vggface2-features.pth $torch_home/checkpoints/vggface2_G5aNV2VSMn.pt
