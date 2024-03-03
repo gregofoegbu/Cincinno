@@ -1,4 +1,9 @@
-from models.inception_resnet_v1 import InceptionResnetV1
+from facenet_pytorch import InceptionResnetV1
+from torch import nn, optim, device
+import torch.nn.functional as F
+from torch.optim import lr_scheduler
+
+from main.load_data import class_names
 
 print('Running on device: {}'.format(device))
 
