@@ -1,10 +1,17 @@
 import fnmatch
 import os
+
+import splitfolders
 from matplotlib import pyplot as plt
 import cv2
 
+current_working_directory = os.getcwd()
+print (current_working_directory)
+
+splitfolders.ratio('dataset', output="data", seed=1337, ratio=(.8, 0.2))
+
 # Load the cascade
-face_cascade = cv2.CascadeClassifier('/haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 paths = "/data/"
 
