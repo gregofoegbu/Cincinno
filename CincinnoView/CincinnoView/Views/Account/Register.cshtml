@@ -1,0 +1,57 @@
+﻿@model RegisterViewModel
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <div class="title">Register Your Device</div>
+        <div class="content">
+            <form asp-controller="Account" asp-action="Register" method="post">
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Full Name</span>
+                        <input type="text" placeholder="Enter your name" required asp-for="Fullname">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Username</span>
+                        <input type="text" placeholder="Enter your username" required asp-for="Username">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Email</span>
+                        <input type="text" placeholder="Enter your email" required asp-for="Email">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Phone Number</span>
+                        <input type="text" placeholder="Enter your number" required asp-for="Phone">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Password</span>
+                        <input type="password" placeholder="Enter your password" required asp-for="Password">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Confirm Password</span>
+                        <input type="password" placeholder="Confirm your password" required asp-for="ConfirmPassword">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Address</span>
+                        <input type="text" placeholder="Enter your address" asp-for="Address">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Device Number</span>
+                        <input type="text" placeholder="Enter your device number" required asp-for="DeviceNumber">
+                    </div>
+                </div>
+                <div align="center">
+                    <button class="btn btn-primary">Register Device</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
