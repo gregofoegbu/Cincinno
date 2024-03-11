@@ -1,0 +1,21 @@
+﻿@model List<ImageViewModel>
+
+<h2>Image Gallery</h2>
+
+@{ if (ViewBag.DeleteResult != null) {
+        <p>@ViewBag.DeleteResult</p>
+        }
+    }
+<div class="image-gallery">
+    @foreach (var image in Model)
+    {
+        <div class="image-item">
+            <img src="@Url.Action("DisplayImage", "Image", new { id = image.Id })" alt="@image.Filename" />
+            <p>@image.Filename</p>
+            <a asp-controller="Image" asp-action="DeleteImage" asp-route-id="@image.Id" class="delete-button">Delete Image</a>
+        </div>
+    }
+</div>
+<a asp-controller="Image" asp-action="UploadImage" class="button-link">Upload New Image</a>
+
+
