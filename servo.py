@@ -1,36 +1,34 @@
-import RPi.GPIO as GPIO
-import time
 
+from gpiozero import Servo
+from time import sleep
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.OUT)
+myGPIO = 17
 
+myCorrection = 0.45
+maxPW = (2.0 + myCorrection) / 1000
+minPW = (1.0 - myCorrection) / 1000
 
-def unlock():
-    pulse=1.7
-    pause=20
-    p=GPIO.PWM(17,1000/(pulse+20))
-    #start PWM, pulse=1.5ms, pause=20ms
-    dc=pulse*100/(pulse+pause)
-    
-    p.start(dc)
-    time.sleep(0.4)
-    p.stop()
-    #raw_input("Press enter to stop")
-    #GPIO.cleanup()
-    #exit(0)
+servo = Servo(myGPIO, min_pulse_width=minPW, max_pulse_width=maxPW)
 
-def lock():
-    pulse=1.3
-    pause=20
-    p=GPIO.PWM(17,1000/(pulse+20))
-    #start PWM, pulse=1.5ms, pause=20ms
-    dc=pulse*100/(pulse+pause)
+def Unlock():
+    servo.max()
+    print("max")
 
-    p.start(dc)
-    time.sleep(0.4)
-    p.stop()
-    #raw_input("Press enter to stop")
-    #GPIO.cleanup()
-    #exit(0)
+def Lock():
+    servo.min()
+    print("min")
+
+def test():
+    while True:
+        servo.mid()
+        print("mid")
+        sleep(0.5)
+        servo.min()
+        print("min")
+        sleep(1)
+        servo.mid()
+        print("mid")
+        sleep(0.5)
+        servo.max()
+        print("max")
+        sleep(1)

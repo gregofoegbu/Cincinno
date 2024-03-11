@@ -1,19 +1,19 @@
 #! /usr/bin/python
 # import the necessary packages
-from imutils.video import VideoStream
-from imutils.video import FPS
-import face_recognition
-import imutils
+import os
 import pickle
 import time
-import cv2
-import os
-import torch
-from facenet_pytorch import InceptionResnetV1, MTCNN
-from tqdm import tqdm
 from types import MethodType
 
-### helper function
+import cv2
+import face_recognition
+import torch
+from facenet_pytorch import InceptionResnetV1, MTCNN
+from imutils.video import FPS
+from imutils.video import VideoStream
+
+
+# helper function
 def encode(img):
     res = resnet(torch.Tensor(img))
     return res
@@ -31,7 +31,6 @@ def detect_box(self, img, save_path=None):
 
 # Load models
 resnet = InceptionResnetV1(pretrained='vggface2').eval()
-
 
 
 def detect(cam=0, thres=0.7):
@@ -79,7 +78,7 @@ def detect(cam=0, thres=0.7):
                     img0, min_key, (x + 5, y + 10),
                     cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1)
 
-        ### display
+        # display
         cv2.imshow("output", img0)
         if cv2.waitKey(1) == ord('q'):
             cv2.destroyAllWindows()
@@ -93,6 +92,7 @@ def detect(cam=0, thres=0.7):
     print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
     print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
+
 def facial_recognition():
     # Initialize 'currentname' to trigger only when a new person is identified.
     currentname = "unknown"
@@ -103,6 +103,9 @@ def facial_recognition():
     # cascade for face detection
     print("[INFO] loading encodings + face detector...")
     data = pickle.loads(open(encodingsP, "rb").read())
+
+    approvedFace = False
+    approvedName = []
 
     # initialize the video stream and allow the camera sensor to warm up
     # Set the ser to the followng
@@ -159,6 +162,8 @@ def facial_recognition():
                 if currentname != name:
                     currentname = name
                     print(currentname)
+                    approvedFace = True
+                    approvedName = [True, currentname]
 
             # update the list of names
             names.append(name)
@@ -177,7 +182,7 @@ def facial_recognition():
         key = cv2.waitKey(1) & 0xFF
 
         # quit when 'q' key is pressed
-        if key == ord("q"):
+        if key == ord("q") or approvedFace == True:
             break
 
         # update the FPS counter
@@ -191,3 +196,8 @@ def facial_recognition():
     # do a bit of cleanup
     cv2.destroyAllWindows()
     vs.stop()
+
+    if approvedFace == True:
+        return approvedName
+    else:
+        return [False, "Unknown"]
