@@ -1,5 +1,6 @@
 #! /usr/bin/python
 # import the necessary packages
+import datetime
 import os
 import pickle
 import time
@@ -93,16 +94,9 @@ def detect(cam=0, thres=0.7):
     print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 
-def facial_recognition():
+def facial_recognition(data):
     # Initialize 'currentname' to trigger only when a new person is identified.
     currentname = "unknown"
-    # Determine faces from encodings.pickle file model created from train_model.py
-    encodingsP = "encodings.pickle"
-
-    # load the known faces and embeddings along with OpenCV's Haar
-    # cascade for face detection
-    print("[INFO] loading encodings + face detector...")
-    data = pickle.loads(open(encodingsP, "rb").read())
 
     approvedFace = False
     approvedName = []
@@ -117,6 +111,7 @@ def facial_recognition():
 
     # start the FPS counter
     fps = FPS().start()
+    startTime = 0
 
     # loop over frames from the video file stream
     while True:
@@ -131,6 +126,7 @@ def facial_recognition():
         encodings = face_recognition.face_encodings(frame, boxes)
         names = []
 
+
         # loop over the facial embeddings
         for encoding in encodings:
             # attempt to match each face in the input image to our known
@@ -138,6 +134,9 @@ def facial_recognition():
             matches = face_recognition.compare_faces(data["encodings"],
                                                      encoding)
             name = "Unknown"  # if face is not recognized, then print Unknown
+
+            if startTime == 0:
+                startTime = time.time()
 
             # check to see if we have found a match
             if True in matches:
@@ -185,12 +184,19 @@ def facial_recognition():
         if key == ord("q") or approvedFace == True:
             break
 
+        endTime = time.time()
+
+        comparedTime = endTime - startTime
+
+        if approvedFace == False and comparedTime > 10.0:
+            break
+
         # update the FPS counter
         fps.update()
 
     # stop the timer and display FPS information
     fps.stop()
-    print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
+    print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
     print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
     # do a bit of cleanup
