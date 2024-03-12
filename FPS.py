@@ -1,19 +1,22 @@
 # import the necessary packages
 import datetime
 
-
 class FPS:
     def __init__(self):
         # store the start time, end time, and total number of frames
         # that were examined between the start and end intervals
         self._start = None
         self._end = None
+        self._mid = None
         self._numFrames = 0
 
     def start(self):
         # start the timer
         self._start = datetime.datetime.now()
         return self
+
+    def checkCurrent(self):
+        self._mid = datetime.datetime.now()
 
     def stop(self):
         # stop the timer
@@ -28,6 +31,9 @@ class FPS:
         # return the total number of seconds between the start and
         # end interval
         return (self._end - self._start).total_seconds()
+
+    def elaspedMid(self):
+        return (self._mid - self._start).total_seconds()
 
     def fps(self):
         # compute the (approximate) frames per second
