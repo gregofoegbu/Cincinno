@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,send_file
 import requests
+from io import BytesIO
 
 app = Flask(__name__)
 
@@ -43,10 +44,13 @@ def register():
     response = requests.post(f"{BASE_URL}/register", json=data)
     return jsonify(response.json()), response.status_code
 
+from flask import send_file
+from io import BytesIO
+
 @app.route('/api/images', methods=['GET'])
 def get_images():
     response = requests.get(f"{BASE_URL}/Image/DisplayImages")
     return jsonify(response.json()), response.status_code
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=7240)
