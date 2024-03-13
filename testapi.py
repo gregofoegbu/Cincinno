@@ -1,32 +1,35 @@
 import requests
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+BASE_URL = "https://3.98.138.165/api/"
 
-BASE_URL = "http://localhost:7240"
+def test_post_data():
+    data = {"key": "value"}
+    response = requests.post(f"{BASE_URL}data", json=data)
+    assert response.status_code == 200
+    assert "success" in response.json()
 
-# Test POST /api/data
-data = {"key": "value"}
-response = requests.post(f"{BASE_URL}/api/data", json=data)
-print(response.json())
+def test_put_data():
+    data = {"key": "new_value"}
+    response = requests.put(f"{BASE_URL}data", json=data)
+    assert response.status_code == 200
+    assert "success" in response.json()
 
-# Test PUT /api/data
-data = {"key": "new_value"}
-response = requests.put(f"{BASE_URL}/api/data", json=data)
-print(response.json())
+def test_delete_data():
+    id = 123
+    response = requests.delete(f"{BASE_URL}data/{id}")
+    assert response.status_code == 200
+    assert "success" in response.json()
+def test_get_images():
+    response = requests.get(f"{BASE_URL}images")
+    assert response.status_code == 200
+    assert "images" in response.json()  # Assuming the response contains a key named "images"
 
-# Test DELETE /api/data/<id>
-id = 123
-response = requests.delete(f"{BASE_URL}/api/data/{id}")
-print(response.json())
+# Add more tests for other endpoints...
 
-# Test POST /api/auth/login
-login_data = {"Username": "example_username", "Password": "example_password"}
-response = requests.post(f"{BASE_URL}/api/auth/login", json=login_data)
-print(response.json())
-
-# Test POST /api/auth/register
-register_data = {"username": "new_user", "password": "password123"}
-response = requests.post(f"{BASE_URL}/api/auth/register", json=register_data)
-print(response.json())
-
-# Test GET /api/images
-response = requests.get(f"{BASE_URL}/api/images")
-print(response.json())
+if __name__ == "__main__":
+    test_post_data()
+    test_put_data()
+    test_delete_data()
+    test_get_images()
+    # Run other tests...
