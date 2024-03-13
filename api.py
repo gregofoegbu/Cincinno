@@ -52,4 +52,4 @@ def get_images():
     return jsonify(response.json()), response.status_code
 
 if __name__ == '__main__':
-    app.run(port=7240)
+    app.run(port=433)
