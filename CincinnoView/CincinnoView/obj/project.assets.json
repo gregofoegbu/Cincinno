@@ -251,11 +251,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/gregoryofoegbu/Projects/CincinnoView/CincinnoView/CincinnoView.csproj",
+      "projectUniqueName": "/Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/CincinnoView.csproj",
       "projectName": "CincinnoView",
-      "projectPath": "/Users/gregoryofoegbu/Projects/CincinnoView/CincinnoView/CincinnoView.csproj",
+      "projectPath": "/Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/CincinnoView.csproj",
       "packagesPath": "/Users/gregoryofoegbu/.nuget/packages/",
-      "outputPath": "/Users/gregoryofoegbu/Projects/CincinnoView/CincinnoView/obj/",
+      "outputPath": "/Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/gregoryofoegbu/.nuget/NuGet/NuGet.Config"
@@ -264,7 +264,7 @@
         "net7.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/sdk/7.0.313/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+        "/usr/local/share/dotnet/sdk/7.0.314/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -311,7 +311,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.313/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.314/RuntimeIdentifierGraph.json"
       }
     }
   }
