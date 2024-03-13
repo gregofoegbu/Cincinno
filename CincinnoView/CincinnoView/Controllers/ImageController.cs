@@ -22,9 +22,9 @@ namespace CincinnoView.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadImage(IFormFile file)
+        public async Task<IActionResult> UploadImage(IFormFile file, string imageName)
         {
-            if(await SaveImageApiCall(file))
+            if (await SaveImageApiCall(file, imageName))
             {
                 return RedirectToAction("DisplayImages");
             }
@@ -34,7 +34,7 @@ namespace CincinnoView.Controllers
             }
         }
 
-        private async Task<bool> SaveImageApiCall(IFormFile file)
+        private async Task<bool> SaveImageApiCall(IFormFile file, string imageName)
         {
             var userId = HttpContext.Session.GetString("AccessToken");
             using (var client = new HttpClient())
@@ -42,6 +42,7 @@ namespace CincinnoView.Controllers
                 using (var content = new MultipartFormDataContent())
                 {
                     content.Add(new StringContent(userId!), "userId");
+                    content.Add(new StringContent(imageName), "name");
                     var fileContent = new StreamContent(file.OpenReadStream());
                     fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data")
                     {
@@ -51,7 +52,7 @@ namespace CincinnoView.Controllers
 
                     content.Add(fileContent);
 
-                    var apiUrl = "https://localhost:7240/api/Image/addphoto";  
+                    var apiUrl = "https://localhost:7240/api/Image/addphoto";
                     var response = await client.PostAsync(apiUrl, content);
 
                     return response.IsSuccessStatusCode;
