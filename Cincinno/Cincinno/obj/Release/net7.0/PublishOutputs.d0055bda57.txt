@@ -1,0 +1,16 @@
+/Users/gregoryofoegbu/Desktop/TestPublish/Cincinno
+/Users/gregoryofoegbu/Desktop/TestPublish/appsettings.Development.json
+/Users/gregoryofoegbu/Desktop/TestPublish/appsettings.json
+/Users/gregoryofoegbu/Desktop/TestPublish/Cincinno.dll
+/Users/gregoryofoegbu/Desktop/TestPublish/Cincinno.deps.json
+/Users/gregoryofoegbu/Desktop/TestPublish/Cincinno.runtimeconfig.json
+/Users/gregoryofoegbu/Desktop/TestPublish/Cincinno.pdb
+/Users/gregoryofoegbu/Desktop/TestPublish/Microsoft.AspNetCore.OpenApi.dll
+/Users/gregoryofoegbu/Desktop/TestPublish/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/gregoryofoegbu/Desktop/TestPublish/Microsoft.Extensions.Logging.Abstractions.dll
+/Users/gregoryofoegbu/Desktop/TestPublish/Microsoft.OpenApi.dll
+/Users/gregoryofoegbu/Desktop/TestPublish/Newtonsoft.Json.dll
+/Users/gregoryofoegbu/Desktop/TestPublish/Npgsql.dll
+/Users/gregoryofoegbu/Desktop/TestPublish/Swashbuckle.AspNetCore.Swagger.dll
+/Users/gregoryofoegbu/Desktop/TestPublish/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/gregoryofoegbu/Desktop/TestPublish/Swashbuckle.AspNetCore.SwaggerUI.dll
