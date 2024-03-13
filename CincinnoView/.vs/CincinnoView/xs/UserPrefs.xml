@@ -1,25 +1,22 @@
 ﻿<Properties StartupConfiguration="{DB8228F7-607E-4F9F-B3C1-EFFD73468EE9}|https">
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.CincinnoView PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CincinnoView/Views/Image/UploadImage.cshtml">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.CincinnoView PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CincinnoView/Controllers/ImageController.cs">
     <Files>
       <File FileName="CincinnoView/Controllers/HomeController.cs" />
-      <File FileName="CincinnoView/Views/Shared/_Layout.cshtml" Line="41" Column="30" />
+      <File FileName="CincinnoView/Views/Shared/_Layout.cshtml" />
       <File FileName="CincinnoView/Models/ImageViewModel.cs" />
-      <File FileName="CincinnoView/Models/UserViewModel.cs" Line="19" Column="1" />
-      <File FileName="CincinnoView/Views/Image/DisplayImages.cshtml" Line="12" Column="31" />
-      <File FileName="CincinnoView/Controllers/AccountController.cs" Line="56" Column="60" />
-      <File FileName="CincinnoView/Controllers/ImageController.cs" Line="98" Column="101" />
-      <File FileName="CincinnoView/Views/User/Account.cshtml" Line="72" Column="81" />
-      <File FileName="CincinnoView/Program.cs" Line="42" Column="1" />
-      <File FileName="CincinnoView/wwwroot/css/styles.css" Line="80" Column="1" />
-      <File FileName="CincinnoView/Views/Image/UploadImage.cshtml" Line="1" Column="1" />
-      <File FileName="CincinnoView/Controllers/UserController.cs" Line="19" Column="1" />
+      <File FileName="CincinnoView/Models/UserViewModel.cs" />
+      <File FileName="CincinnoView/Views/Image/DisplayImages.cshtml" />
+      <File FileName="CincinnoView/Controllers/AccountController.cs" />
+      <File FileName="CincinnoView/Controllers/ImageController.cs" Line="55" Column="40" />
+      <File FileName="CincinnoView/Views/User/Account.cshtml" />
+      <File FileName="CincinnoView/Program.cs" />
+      <File FileName="CincinnoView/wwwroot/css/styles.css" />
+      <File FileName="CincinnoView/Views/Image/UploadImage.cshtml" Line="4" Column="74" />
+      <File FileName="CincinnoView/Controllers/UserController.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -34,9 +31,7 @@
               <Node name="Views" expanded="True">
                 <Node name="Account" expanded="True" />
                 <Node name="Home" expanded="True" />
-                <Node name="Image" expanded="True">
-                  <Node name="UploadImage.cshtml" selected="True" />
-                </Node>
+                <Node name="Image" expanded="True" />
                 <Node name="User" expanded="True" />
               </Node>
               <Node name="wwwroot" expanded="True">
@@ -49,4 +44,7 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>
