@@ -2,10 +2,12 @@ from flask import Flask, request, jsonify,send_file
 import requests
 from io import BytesIO
 import urllib3
+import os
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 app = Flask(__name__)
 
 BASE_URL = "https://3.98.138.165/api/"
+DATASET_DIR = "dataset"
 
 # @app.route('/api/data', methods=['POST'])
 # def post_data():
@@ -46,10 +48,33 @@ BASE_URL = "https://3.98.138.165/api/"
 #     return jsonify(response.json()), response.status_code
 
 
+import os
+
 @app.route('/api/Image', methods=['GET'])
 def get_images():
     response = requests.get(f"{BASE_URL}/Image/getImages", verify=False)
-    return jsonify(response.json()), response.status_code
+    if response.status_code == 200:
+        # Assuming the response contains image data in bytes
+        image_bytes = response.content
+
+        # Extract username and filename from the response JSON
+        response_json = response.json()
+        user_name = response_json.get('name')
+        filename = response_json.get('filename')  # Assuming the key for filename in JSON is 'filename'
+
+        # Create the dataset directory if it doesn't exist
+        user_dir = os.path.join(DATASET_DIR, user_name)
+        if not os.path.isdir(user_dir):
+            os.makedirs(user_dir)
+
+        # Save the image with the given filename under the user's directory
+        image_path = os.path.join(user_dir, filename)
+        with open(image_path, "wb") as f:
+            f.write(image_bytes)
+
+        return jsonify({"message": "Image saved successfully", "image_path": image_path}), 200
+    else:
+        return jsonify({"error": "Failed to get images"}), response.status_code
 
 if __name__ == '__main__':
     app.run(port=433)
