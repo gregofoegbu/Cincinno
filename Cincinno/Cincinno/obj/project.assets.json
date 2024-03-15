@@ -689,11 +689,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/gregoryofoegbu/Projects/Cincinno/Cincinno/Cincinno.csproj",
+      "projectUniqueName": "/Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/Cincinno/Cincinno/Cincinno.csproj",
       "projectName": "Cincinno",
-      "projectPath": "/Users/gregoryofoegbu/Projects/Cincinno/Cincinno/Cincinno.csproj",
+      "projectPath": "/Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/Cincinno/Cincinno/Cincinno.csproj",
       "packagesPath": "/Users/gregoryofoegbu/.nuget/packages/",
-      "outputPath": "/Users/gregoryofoegbu/Projects/Cincinno/Cincinno/obj/",
+      "outputPath": "/Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/Cincinno/Cincinno/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/gregoryofoegbu/.nuget/NuGet/NuGet.Config"

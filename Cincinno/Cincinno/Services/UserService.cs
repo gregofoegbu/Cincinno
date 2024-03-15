@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Cincinno.Models;
 using Npgsql;
 
@@ -68,13 +69,29 @@ namespace Cincinno.Services
                             Phone = reader.GetString(reader.GetOrdinal("phone")),
                             Email = reader.GetString(reader.GetOrdinal("email")),
                             Fullname = reader.GetString(reader.GetOrdinal("fullname")),
-                            RegisteredDevices = reader.GetInt32(reader.GetOrdinal("registered_devices"))
+                            RegisteredDevices = reader.GetInt32(reader.GetOrdinal("registered_devices")),
+                            DeviceThreshold = reader.GetInt32(reader.GetOrdinal("threshold"))                            
                         };
                     }
                 }
             }
             _dbconnection.Close();
             return user;
+        }
+
+        public bool UpdateThreshold(Guid userId, int threshold)
+        {
+            int a;
+            _dbconnection.Open();
+
+            using (var command = new NpgsqlCommand("UPDATE users SET threshold = @threshold WHERE user_id = @id", _dbconnection))
+            {
+                command.Parameters.AddWithValue("@threshold", threshold);
+                command.Parameters.AddWithValue("@id", userId);
+                a = command.ExecuteNonQuery();
+            }
+         
+            return a != 0;
         }
     }
 }

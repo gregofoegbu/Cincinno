@@ -1,6 +1,11 @@
 ﻿@model UserViewModel
 
 <div class="container">
+    @{ if (ViewBag.UpdateThresh != null)
+        {
+            <p>@ViewBag.UpdateThresh</p>
+        }
+    }
     <div class="main-body">
         <div class="row gutters-sm">
             <div class="col-md-4 mb-3">
@@ -13,7 +18,8 @@
 
                                 <p>Device ID: #567848234</p>
                                 <a class="btn btn-outline-primary" asp-controller="Image" asp-action="UploadImage">Register New Faces</a>
-                                <a class="btn btn-outline-secondary" asp-controller="Account" asp-action="Logout">Logout</a>
+                                <a class="btn btn-outline-primary btn-sm" asp-controller="Image" asp-action="DisplayImages">View Faces</a>
+                                <a class="btn btn-outline-secondary btn-sm" asp-controller="Account" asp-action="Logout">Logout</a>
                             </div>
                         </div>
                     </div>
@@ -68,8 +74,19 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-12">
-                                <a class="btn btn-info " target="__blank" href="">Edit</a>
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Device Threshold</h6>
+                            </div>
+                            <div class="col-sm-5">
+                                <span id="thresholdValue">@{@Model.DeviceThreshold}%</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <a id="editThresholdBtn" class="btn btn-info btn-sm">Edit Threshold</a>
+                                <div id="thresholdSlider" style="display: none;" data-update-url="@Url.Action("UpdateThreshold", "User")">
+                                    <input type="range" min="0" max="100" value="@Model.DeviceThreshold" class="slider" id="thresholdRange">
+                                    <button id="saveThresholdBtn" class="btn btn-success btn-sm mt-2">Save</button>
+                                    <button id="cancelThresholdBtn" class="btn btn-secondary btn-sm mt-2 ml-2">Cancel</button>
+                                </div>
                             </div>
                         </div>
                     </div>

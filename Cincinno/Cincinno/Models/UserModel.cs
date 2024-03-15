@@ -17,6 +17,8 @@ namespace Cincinno.Models
 
 		public int RegisteredDevices { get; set; }
 
+		public int DeviceThreshold { get; set; }
+
 		public UserModel(Guid userid, string name, string address, string phone, string email, string fullname, int devicecount)
 		{
 			UserId = userid;

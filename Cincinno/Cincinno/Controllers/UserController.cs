@@ -32,15 +32,23 @@ namespace Cincinno.Controllers
             return Ok("User Saved Succesfully");
         }
 
-        [HttpPost("updateuser")]
-        public void UpdateUser([FromBody] string value)
+        [HttpPost("updateuserthreshold")]
+        public IActionResult UpdateUserThreshold([FromBody] ThresholdUpdateRequest updateRequest)
         {
+            var success = _userService.UpdateThreshold(updateRequest.UserId, updateRequest.NewThreshold);
+            return Ok(success);
         }
 
         [HttpDelete("deleteuser/{id}")]
         public void DeleteUser(int id)
         {
         }
+    }
+
+    public class ThresholdUpdateRequest
+    {
+        public Guid UserId { get; set; }
+        public int NewThreshold { get; set; }
     }
 }
 

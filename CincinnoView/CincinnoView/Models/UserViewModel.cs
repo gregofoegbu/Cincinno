@@ -17,6 +17,8 @@ namespace CincinnoView.Models
 
         public int RegisteredDevices { get; set; }
 
+        public int DeviceThreshold { get; set; }
+
         public UserViewModel()
 		{
 		}

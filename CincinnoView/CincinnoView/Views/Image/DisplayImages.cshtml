@@ -6,16 +6,20 @@
         <p>@ViewBag.DeleteResult</p>
         }
     }
-<div class="image-gallery">
+<div class="image-container">
     @foreach (var image in Model)
     {
         <div class="image-item">
             <img src="@Url.Action("DisplayImage", "Image", new { id = image.Id })" alt="@image.Filename" />
-            <p>@image.Filename</p>
-            <a asp-controller="Image" asp-action="DeleteImage" asp-route-id="@image.Id" class="delete-button">Delete Image</a>
+            <p>@image.Name</p>
+            <div class="deleteimgblock">
+            <a asp-controller="Image" asp-action="DeleteImage" asp-route-id="@image.Id" class="btn btn-danger btn-sm">Delete Image</a>
+            </div>
         </div>
     }
 </div>
-<a asp-controller="Image" asp-action="UploadImage" class="button-link">Upload New Image</a>
+<div class="uploadimg">
+<a asp-controller="Image" asp-action="UploadImage" class="btn btn-outline-primary">Upload New Image</a>
+</div>
 
 

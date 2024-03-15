@@ -3,29 +3,33 @@
 /* Body styling */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f8ff; /* Light blue background color */
     color: #333; /* Text color */
     margin: 0;
 }
 
-/* Header styling */
+
 header {
-    background-color: #3498db; /* Complementary color for header */
     color: #fff; /* Text color for header */
     padding: 10px;
     text-align: center;
 }
 
 /* Main content styling */
-.main-content {
+/*.main-content {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #fff; /* White background for main content */
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle effect */
-}
+    background-color: #fff;*/ /* White background for main content */
+    /*border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/ /* Box shadow for a subtle effect */
+/*}*/
 
+.loginbutton {
+    display: block;
+    margin-top:5px;
+    margin-left:auto;
+    margin-right:auto;
+}
 /* Button style */
 .button {
     background-color: #3498db; /* Light blue background color */
@@ -59,15 +63,20 @@ header {
     background-color: #2980b9; /* Darker blue background color on hover */
 }
 
-.image-gallery {
+.image-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px; /* Adjust the gap between items */
+    gap: 10px; /* Adjust the gap between items */
 }
 
 .image-item {
-    flex: 1 0 45%; /* Adjust the width of each column and the space between items */
-    margin-bottom: 20px;
+    flex: 1;
+    min-width: 195px;
+}
+
+.image-item img {
+    max-width: 200px;
+    height: auto;
 }
 
 .delete-button {
@@ -88,4 +97,23 @@ header {
 
 .account-tab {
     margin-left: auto; /* Pushes the Account tab to the right */
+}
+
+.hero-section h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #000; /* Change the color to black */
+}
+
+.btn {
+    padding-top:5px;
+    margin-top:5px;
+}
+
+.uploadimg {
+    text-align:center;
+}
+.deleteimgblock {
+    text-align:left;
 }

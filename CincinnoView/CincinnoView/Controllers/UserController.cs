@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CincinnoView.Attributes;
 using CincinnoView.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CincinnoView.Controllers
 {
@@ -16,10 +17,19 @@ namespace CincinnoView.Controllers
     {
         public IActionResult Account()
         {
-            var userId = Guid.Parse(HttpContext.Session.GetString("AccessToken"));
+            if(HttpContext.Session.GetString("AccessToken") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (TempData["UpdateThresh"] != null)
+            {
+                ViewBag.UpdateThresh = TempData["UpdateThresh"];
+            }
+            Guid userId = Guid.Parse(HttpContext.Session.GetString("AccessToken")!);
+
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri($"https://localhost:7240/api/User/getuser/{userId}")
+                BaseAddress = new Uri($"http://localhost:8050/api/User/getuser/{userId}")
             };
             var response = httpClient.GetAsync(httpClient.BaseAddress).Result;
 
@@ -31,6 +41,35 @@ namespace CincinnoView.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> UpdateThreshold([FromQuery] int thresholdValue)
+        {
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:8050/api/User/UpdateUserThreshold")
+            };
+            var values = new ThresholdUpdateRequest
+            {
+                UserId = Guid.Parse(HttpContext.Session.GetString("AccessToken")!),
+                NewThreshold = thresholdValue
+            };
+            var response = httpClient.PostAsJsonAsync(httpClient.BaseAddress, values).Result;
+            var success = await response.Content.ReadFromJsonAsync<bool>();
+            if (success)
+            {
+                TempData["UpdateThresh"] = "Updated Device Threshold";
+            } else
+            {
+                TempData["UpdateThresh"] = "Failed To update threshold";
+            }
+            return RedirectToAction("Account");
+        }
+    }
+
+    public class ThresholdUpdateRequest
+    {
+        public Guid UserId { get; set; }
+        public int NewThreshold { get; set; }
     }
 }
 

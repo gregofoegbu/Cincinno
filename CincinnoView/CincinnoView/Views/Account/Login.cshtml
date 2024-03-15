@@ -30,9 +30,11 @@
                                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Login</button>
+                            <button type="submit" class="btn btn-primary loginbutton">Login</button>
                         }
-                        <a asp-controller="Account" asp-action="Register">I dont have an account</a>
+                        <div class="loginbutton">
+                        <a asp-controller="Account" asp-action="Register" style="text-align:center">I dont have an account</a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,8 @@
+/Users/gregoryofoegbu/Desktop/PublishView/CincinnoView
+/Users/gregoryofoegbu/Desktop/PublishView/appsettings.Development.json
+/Users/gregoryofoegbu/Desktop/PublishView/appsettings.json
+/Users/gregoryofoegbu/Desktop/PublishView/CincinnoView.dll
+/Users/gregoryofoegbu/Desktop/PublishView/CincinnoView.deps.json
+/Users/gregoryofoegbu/Desktop/PublishView/CincinnoView.runtimeconfig.json
+/Users/gregoryofoegbu/Desktop/PublishView/CincinnoView.pdb
+/Users/gregoryofoegbu/Desktop/PublishView/Newtonsoft.Json.dll

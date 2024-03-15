@@ -10,6 +10,7 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <Content Remove="Views\Home\user.cshtml" />
+    <Content Remove="wwwroot\images\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.4.1" />
@@ -26,5 +27,6 @@
     <Folder Include="Attributes\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\User\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 </Project>

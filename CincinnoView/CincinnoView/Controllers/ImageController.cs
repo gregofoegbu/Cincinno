@@ -15,7 +15,6 @@ namespace CincinnoView.Controllers
     [CustomAuthorize]
     public class ImageController : Controller
     {
-        // GET: /<controller>/
         public IActionResult UploadImage()
         {
             return View();
@@ -52,7 +51,7 @@ namespace CincinnoView.Controllers
 
                     content.Add(fileContent);
 
-                    var apiUrl = "https://localhost:7240/api/Image/addphoto";
+                    var apiUrl = "http://localhost:8050/api/Image/addphoto";
                     var response = await client.PostAsync(apiUrl, content);
 
                     return response.IsSuccessStatusCode;
@@ -69,7 +68,7 @@ namespace CincinnoView.Controllers
             var userId = HttpContext.Session.GetString("AccessToken");
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri($"https://localhost:7240/api/Image/getimages/{userId}")
+                BaseAddress = new Uri($"http://localhost:8050/api/Image/getimages/{userId}")
             };
 
             var response = httpClient.GetAsync("").Result;
@@ -90,7 +89,7 @@ namespace CincinnoView.Controllers
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri($"https://localhost:7240/api/Image/getimage/{id}")
+                BaseAddress = new Uri($"http://localhost:8050/api/Image/getimage/{id}")
             };
             var response = httpClient.GetAsync(httpClient.BaseAddress).Result;
 
@@ -107,7 +106,7 @@ namespace CincinnoView.Controllers
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri($"https://localhost:7240/api/Image/deletephoto/{id}")
+                BaseAddress = new Uri($"http://localhost:8050/api/Image/deletephoto/{id}")
             };
             var response = httpClient.DeleteAsync(httpClient.BaseAddress).Result;
             if (response.IsSuccessStatusCode)
