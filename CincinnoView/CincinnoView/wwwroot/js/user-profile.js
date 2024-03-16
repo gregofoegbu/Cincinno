@@ -42,3 +42,15 @@ function toggleAddUserForm() {
     var form = document.getElementById('addUserForm');
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
 }
+
+function validateUserSelection() {
+    var selectedUser = document.getElementById('memberName').value;
+    var uploadButton = document.getElementById('uploadButton');
+    uploadButton.disabled = selectedUser === '';
+}
+
+function validateUserInput() {
+    var userInput = document.getElementById('userNameInput').value;
+    var addUserButton = document.getElementById('addUserButton');
+    addUserButton.disabled = userInput.trim() === '';
+}

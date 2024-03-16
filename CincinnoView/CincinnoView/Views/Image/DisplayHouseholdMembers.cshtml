@@ -15,15 +15,16 @@
                                     <input type="file" id="file" name="file" />
                                 </div>
                                 <div>
-                                    <label for="imageName">Select User:</label>
-                                    <select id="imageName" name="imageName">
+                                    <label for="memberName">Select User:</label>
+                                    <select id="memberName" name="memberName" onchange="validateUserSelection()">
+                                        <option value="">Select User</option>
                                         @foreach (var user in Model)
                                         {
                                             <option value="@user.MemberName">@user.MemberName</option>
                                         }
                                     </select>
                                 </div>
-                                <button type="submit">Upload</button>
+                                <button id="uploadButton" type="submit" disabled>Upload</button>
                             </form>
                         </div>
                     </div>
@@ -34,13 +35,13 @@
                     <div class="card-body">
                         <div>
                             <h2>Add New User</h2>
-                            <button onclick="toggleAddUserForm()">Add User</button>
+                            <button onclick="toggleAddUserForm()">Add New User</button>
                             <div class="row">
-                                <form id="addUserForm" asp-controller="Image" asp-action="UploadImage" method="post" style="display: none;">
+                                <form id="addUserForm" asp-controller="User" asp-action="AddHouseMember" method="post" style="display: none;">
                                     <div>
-                                        <input type="text" name="imageName" placeholder="Enter user name" />
+                                        <input type="text" id="userNameInput" name="userName" placeholder="Enter user name" onkeyup="validateUserInput()"/>
                                     </div>
-                                    <button type="submit">Add User</button>
+                                    <button id="addUserButton" type="submit" disabled>Add User</button>
                                 </form>
                             </div>
                         </div>
@@ -51,26 +52,42 @@
     </div>
 </div>
 
+@{
+    if (ViewBag.IsImages)
+    {
+        <h1>Users and Photos</h1>
 
-<h1>Users and Photos</h1>
-
-@foreach (var user in Model)
-{
-    <div>
-        <h5><i class="fa-solid fa-user"></i> @user.MemberName <a href="@Url.Action("DeleteUser", new { name = user.MemberName })"><i class="fa fa-trash"></i></a></h5>
-        <div class="image-container">
-            @foreach (var image in user.Images)
+        @foreach (var user in Model)
+        {
+            if (user.Images == null || user.Images.Count == 0)
             {
-                <div class="image-item">
-                    <img src="@Url.Action("DisplayImage", "Image", new { id = image.Id })" alt="@image.Filename" />
-                    <div class="deleteimgblock">
-                        <a asp-controller="Image" asp-action="DeleteImage" asp-route-id="@image.Id" class="btn btn-danger btn-sm">Delete Image</a>
+
+            }
+            else
+            {
+                <div>
+                    <h5><i class="fa-solid fa-user"></i> @user.MemberName <a href="@Url.Action("DeleteUser", new { name = user.MemberName })"><i class="fa fa-trash"></i></a></h5>
+                    <div class="image-container">
+                        @foreach (var image in user.Images)
+                        {
+                            <div class="image-item">
+                                <img src="@Url.Action("DisplayImage", "Image", new { id = image.Id })" alt="@image.Filename" />
+                                <div class="deleteimgblock">
+                                    <a asp-controller="Image" asp-action="DeleteImage" asp-route-id="@image.Id" class="btn btn-danger btn-sm">Delete Image</a>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             }
-        </div>
-    </div>
+        }
+    } else
+{
+        <h4>No Photos Added</h4>
+        <p>Add users and photos to start building your household</p>
 }
+}
+
 
 
 

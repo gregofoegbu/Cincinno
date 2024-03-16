@@ -137,6 +137,12 @@ namespace CincinnoView.Controllers
                 var displayImagevm = new List<HouseholdMemberInfo>();
                 var Housemembers = response2.Content.ReadFromJsonAsync<List<string>>().Result;
                 var images = response.Content.ReadFromJsonAsync<List<ImageViewModel>>().Result;
+                if (images == null || images.Count == 0)
+                {
+                    ViewBag.IsImages = false;
+                } else {
+                    ViewBag.IsImages = true;
+                }
                 foreach(var name in Housemembers!)
                 {
                     var housemember = new HouseholdMemberInfo();

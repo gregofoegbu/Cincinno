@@ -8,6 +8,7 @@ using CincinnoView.Attributes;
 using CincinnoView.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 
 namespace CincinnoView.Controllers
@@ -64,12 +65,35 @@ namespace CincinnoView.Controllers
             }
             return RedirectToAction("Account");
         }
+
+        public IActionResult AddHouseMember(string userName)
+        {
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:7240/api/User/addmember")
+            };
+            var memberRequest = new MembersRequest
+            {
+                UserId = Guid.Parse(HttpContext.Session.GetString("AccessToken")!),
+                MemberName = userName
+            };
+
+            var response = httpClient.PostAsJsonAsync(httpClient.BaseAddress, memberRequest).Result;
+
+            return RedirectToAction("DisplayHouseholdMembers", "Image");
+        }
     }
 
     public class ThresholdUpdateRequest
     {
         public Guid UserId { get; set; }
         public int NewThreshold { get; set; }
+    }
+
+    public class MembersRequest
+    {
+        public Guid UserId { get; set; }
+        public string MemberName { get; set; }
     }
 }
 
