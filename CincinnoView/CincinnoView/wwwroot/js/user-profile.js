@@ -32,3 +32,13 @@
         editThresholdBtn.style.display = 'block'; 
     });
 });
+
+function toggleAddPhotoForm() {
+    var form = document.getElementById('addPhotoForm');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
+function toggleAddUserForm() {
+    var form = document.getElementById('addUserForm');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}

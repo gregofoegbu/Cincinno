@@ -72,10 +72,12 @@ header {
 .image-item {
     flex: 1;
     min-width: 195px;
+    min-height: 195px;
 }
 
 .image-item img {
     max-width: 200px;
+    max-height: 200px;
     height: auto;
 }
 

@@ -11,7 +11,6 @@ namespace Cincinno.Controllers
         private readonly ImageService _imageService;
         private readonly UserService _userService;
 
-
         public UserController(ImageService imageService, UserService userService)
         {
             _imageService = imageService;
@@ -39,9 +38,32 @@ namespace Cincinno.Controllers
             return Ok(success);
         }
 
-        [HttpDelete("deleteuser/{id}")]
-        public void DeleteUser(int id)
+        [HttpGet("getuserid/{deviceId}")]
+        public IActionResult GetUserId(int deviceId)
         {
+            var userId = _userService.GetUserId(deviceId);
+            return Ok(userId);
+        }
+
+        [HttpGet("getusermembers/{userId}")]
+        public IActionResult GetUserMembers(Guid userId)
+        {
+            List<String> members = _userService.GetHouseholdMembers(userId);
+            return Ok(members);
+        }
+
+        [HttpPost("addmember")]
+        public IActionResult AddMember([FromBody] MembersRequest members)
+        {
+            var success = _userService.AddHouseholdMember(members.UserId, members.MemberName);
+            return Ok(success);
+        }
+
+        [HttpDelete("deletemember")]
+        public IActionResult DeleteMember([FromBody] MembersRequest members)
+        {
+            var success = _userService.DeleteMember(members.UserId, members.MemberName);
+            return Ok(success);
         }
     }
 
@@ -49,6 +71,12 @@ namespace Cincinno.Controllers
     {
         public Guid UserId { get; set; }
         public int NewThreshold { get; set; }
+    }
+
+    public class MembersRequest
+    {
+        public Guid UserId { get; set; }
+        public string MemberName { get; set; }
     }
 }
 

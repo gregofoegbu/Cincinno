@@ -8,10 +8,12 @@ namespace Cincinno.Services
 	public class AuthService
 	{
         private readonly NpgsqlConnection _dbconnection;
+        private readonly DeviceService _deviceService;
 
-        public AuthService(IConfiguration configuration)
+        public AuthService(IConfiguration configuration, DeviceService deviceService)
         {
             _dbconnection = new NpgsqlConnection(configuration.GetConnectionString("CincinnoCon"));
+            _deviceService = deviceService;
         }
 
         public AuthUser GetAuthUserByUsername(string username)
@@ -77,6 +79,7 @@ namespace Cincinno.Services
                 return null;
             } else
             {
+                _deviceService.AddDevice(userId, Int32.Parse(userModel.DeviceNumber));
                 return userId;
             }
         }

@@ -18,6 +18,7 @@ public class Program
         builder.Services.AddTransient<AuthService>();
         builder.Services.AddTransient<ImageService>();
         builder.Services.AddTransient<UserService>();
+        builder.Services.AddTransient<DeviceService>();
 
         builder.Services.AddCors(options =>
         {

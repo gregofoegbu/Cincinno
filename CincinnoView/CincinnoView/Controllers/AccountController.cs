@@ -20,7 +20,7 @@ namespace CincinnoView.Controllers
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:8050/api/Auth")
+                BaseAddress = new Uri("https://localhost:7240/api/Auth")
             };
         }
 
@@ -39,7 +39,7 @@ namespace CincinnoView.Controllers
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:8050/api/Auth/Login")
+                BaseAddress = new Uri("https://localhost:7240/api/Auth/Login")
             };
             var credentials = new LoginViewModel
             {
@@ -86,7 +86,7 @@ namespace CincinnoView.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            if (User.Identity != null && User.Identity.IsAuthenticated)
+            if (User.Identity != null && User.Identity.IsAuthenticated && HttpContext.Session.GetString("AccessToken") != null)
             {
                 return RedirectToAction("Account", "Home");
             }
@@ -98,7 +98,7 @@ namespace CincinnoView.Controllers
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:8050/api/Auth/Register")
+                BaseAddress = new Uri("https://localhost:7240/api/Auth/Register")
             };
 
             var response = _httpClient.PostAsJsonAsync(httpClient.BaseAddress, model).Result;

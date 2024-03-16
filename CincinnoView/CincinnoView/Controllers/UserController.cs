@@ -29,7 +29,7 @@ namespace CincinnoView.Controllers
 
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri($"http://localhost:8050/api/User/getuser/{userId}")
+                BaseAddress = new Uri($"https://localhost:7240/api/User/getuser/{userId}")
             };
             var response = httpClient.GetAsync(httpClient.BaseAddress).Result;
 
@@ -46,7 +46,7 @@ namespace CincinnoView.Controllers
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:8050/api/User/UpdateUserThreshold")
+                BaseAddress = new Uri("https://localhost:7240/api/User/UpdateUserThreshold")
             };
             var values = new ThresholdUpdateRequest
             {

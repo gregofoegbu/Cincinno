@@ -64,3 +64,4 @@
 /Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/obj/Debug/net7.0/CincinnoView.pdb
 /Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/obj/Debug/net7.0/CincinnoView.genruntimeconfig.cache
 /Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/obj/Debug/net7.0/ref/CincinnoView.dll
+/Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/bin/Debug/net7.0/libman.json
