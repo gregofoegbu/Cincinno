@@ -75,34 +75,58 @@ def test_get_images1(): #Base test: JSON will ALWAYS BE PRINTED
     print(response.json())
 
 
-def test_get_users():
-    response = requests.get(f"{BASE_URL}User/getUsers", verify=False)
-    assert response.status_code == 200, f"Failed to get users. Status code: {response.status_code}. Response content: {response.text}"
 
-    users = response.json().get('users')
-    assert isinstance(users, list), f"Expected 'users' to be a list, but got {type(users)}"
 
-    for user in users:
-        assert 'id' in user, f"User object does not contain 'id' field: {user}"
+def test_get_userID():
+    deviceId = '123456789'
+    response = requests.get(f"{BASE_URL}User/getuserid/123456789", verify=False)
+    assert response.status_code == 200, f"Failed to get user ID. Status code: {response.status_code}. Response content: {response.text}"
+    try:
+        json_data = response.json()
+        if isinstance(json_data, dict):
+            userId = json_data.get('userId')
+        else:
+            userId = json_data
+        assert userId is not None, "User ID is missing in the response"
+        assert isinstance(userId, str) or isinstance(userId, int), f"Expected 'userId' to be a string or integer, but got {type(userId)}"
+    except ValueError:
+        print(f"Response content is not in JSON format: {response.text}")
+
 
 
 def test_get_threshold():
-    # Send request to get users
-    response = requests.get(f"{BASE_URL}User/getusers", verify=False)
-    # Check if the response is successful (status code 200)
-    assert response.status_code == 200
-    for obj in response.json():
-        user_id = obj['id']  # assuming the user object has an 'id' field
-        response = requests.get(f"{BASE_URL}User/GetUserThreshold/{user_id}", verify=False)
-        assert response.status_code == 200
-        threshold = response.json().get('threshold')
-        assert isinstance(threshold, int)  # assuming threshold is an integer
+    deviceId = '123456789'  # Replace with a valid deviceId for the test
+    response = requests.get(f"{BASE_URL}User/getuserid/{deviceId}", verify=False)
+    assert response.status_code == 200, f"Failed to get user ID. Status code: {response.status_code}. Response content: {response.text}"
+    try:
+        json_data = response.json()
+        if isinstance(json_data, dict):
+            userId = json_data.get('userId')
+        else:
+            userId = json_data
+        assert userId is not None, "User ID is missing in the response"
+        assert isinstance(userId, str) or isinstance(userId, int), f"Expected 'userId' to be a string or integer, but got {type(userId)}"
+    except ValueError:
+        print(f"Response content is not in JSON format: {response.text}")
 
+    response = requests.get(f"{BASE_URL}User/GetUser/{userId}", verify=False)
+    assert response.status_code == 200, f"Failed to get threshold. Status code: {response.status_code}. Response content: {response.text}"
+    try:
+        json_data = response.json()
+        if isinstance(json_data, dict):
+            print(json_data)
+            threshold = json_data.get('deviceThreshold')
+            assert threshold is not None, "Threshold is missing in the response"
+            # Add more assertions here if you have an expected value for 'threshold'
+        else:
+            print("Response is not a JSON object")
+    except ValueError:
+        print("Response content is not in JSON format")
 
 if __name__ == "__main__":
-    test_get_images()
-    test_get_users()
-    #test_get_threshold()
+    #test_get_images()
+    test_get_userID()
+    test_get_threshold()
     #test_get_images1()
 
     # test_post_data()

@@ -78,21 +78,35 @@ def get_images():
 
 
 @app.route('/api/User', methods=['GET'])
-def get_users():
-    response = requests.get(f"{BASE_URL}/User/getUsers", verify=False)
-    if response.status_code == 200:
-        users = response.json()
-        return jsonify({"message": "Users retrieved successfully", "users": users}), 200
+def get_userID():
+    deviceId = request.args.get('deviceId')
+    if deviceId:
+        response = requests.get(f"{BASE_URL}/User/getuserid/{deviceId}")
+        if response.status_code == 200:
+            userId = response.json()
+            return jsonify({"message": "User ID retrieved successfully", "userId": userId}), 200
+        else:
+            return jsonify({"error": "Failed to retrieve user ID"}), response.status_code
     else:
-        return jsonify({"error": "Failed to get users"}), response.status_code
+        return jsonify({"error": "Device ID is required"}), 400
 
 @app.route('/api/User/GetUserThreshold', methods=['GET'])
 def get_threshold():
     user_id = request.args.get('user_id')
     response = requests.get(f"{BASE_URL}User/GetUserThreshold/{user_id}", verify=False)
     if response.status_code == 200:
-        threshold = response.json().get('threshold')
-        return jsonify({"message": "Threshold retrieved successfully", "threshold": threshold}), 200
+        try:
+            json_data = response.json()
+            if isinstance(json_data, dict):
+                threshold = json_data.get('threshold')
+                if threshold is not None:
+                    return jsonify({"message": "Threshold retrieved successfully", "threshold": threshold}), 200
+                else:
+                    return jsonify({"error": "Threshold is missing in the response"}), 400
+            else:
+                return jsonify({"error": "Response is not a JSON object"}), 400
+        except ValueError:
+            return jsonify({"error": "Response content is not in JSON format"}), 400
     else:
         return jsonify({"error": "Failed to get threshold"}), response.status_code
 if __name__ == '__main__':
