@@ -74,8 +74,35 @@ def test_get_images1(): #Base test: JSON will ALWAYS BE PRINTED
     assert response.status_code == 200
     print(response.json())
 
+
+def test_get_users():
+    response = requests.get(f"{BASE_URL}User/getUsers", verify=False)
+    assert response.status_code == 200, f"Failed to get users. Status code: {response.status_code}. Response content: {response.text}"
+
+    users = response.json().get('users')
+    assert isinstance(users, list), f"Expected 'users' to be a list, but got {type(users)}"
+
+    for user in users:
+        assert 'id' in user, f"User object does not contain 'id' field: {user}"
+
+
+def test_get_threshold():
+    # Send request to get users
+    response = requests.get(f"{BASE_URL}User/getusers", verify=False)
+    # Check if the response is successful (status code 200)
+    assert response.status_code == 200
+    for obj in response.json():
+        user_id = obj['id']  # assuming the user object has an 'id' field
+        response = requests.get(f"{BASE_URL}User/GetUserThreshold/{user_id}", verify=False)
+        assert response.status_code == 200
+        threshold = response.json().get('threshold')
+        assert isinstance(threshold, int)  # assuming threshold is an integer
+
+
 if __name__ == "__main__":
     test_get_images()
+    test_get_users()
+    #test_get_threshold()
     #test_get_images1()
 
     # test_post_data()

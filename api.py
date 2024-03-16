@@ -76,5 +76,24 @@ def get_images():
     else:
         return jsonify({"error": "Failed to get images"}), response.status_code
 
+
+@app.route('/api/User', methods=['GET'])
+def get_users():
+    response = requests.get(f"{BASE_URL}/User/getUsers", verify=False)
+    if response.status_code == 200:
+        users = response.json()
+        return jsonify({"message": "Users retrieved successfully", "users": users}), 200
+    else:
+        return jsonify({"error": "Failed to get users"}), response.status_code
+
+@app.route('/api/User/GetUserThreshold', methods=['GET'])
+def get_threshold():
+    user_id = request.args.get('user_id')
+    response = requests.get(f"{BASE_URL}User/GetUserThreshold/{user_id}", verify=False)
+    if response.status_code == 200:
+        threshold = response.json().get('threshold')
+        return jsonify({"message": "Threshold retrieved successfully", "threshold": threshold}), 200
+    else:
+        return jsonify({"error": "Failed to get threshold"}), response.status_code
 if __name__ == '__main__':
     app.run(port=433)
