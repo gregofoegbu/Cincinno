@@ -17,12 +17,12 @@ from api import get_threshold, get_userID
 
 
 def callGetUserID(device_id):
-    response = get_userID(device_id)
+    response = get_userID()
     return response
 
 
 def callGetThreshold(user_id):
-    response = get_threshold(user_id)
+    response = get_threshold()
     return response
 
 
@@ -126,6 +126,9 @@ def facial_recognition(data, vs):
     fps = FPS().start()
     startTime = time.time()
 
+    userId = callGetUserID('123456789')
+    threshold = callGetThreshold(userId)
+
     # loop over frames from the video file stream
     while True:
         # grab the frame from the threaded video stream and resize it
@@ -197,7 +200,7 @@ def facial_recognition(data, vs):
 
         comparedTime = endTime - startTime
 
-        if approvedFace == False and comparedTime > 10.0:
+        if approvedFace == False and comparedTime >30.0:
             break
 
         # update the FPS counter
