@@ -9,15 +9,16 @@ def headshotCapturePi():
     name = input('What is your name?\n')  # replace with your name
 
     cam = PiCamera()
-    cam.resolution = (512, 304)
-    cam.framerate = 10
-    rawCapture = PiRGBArray(cam, size=(512, 304))
+    cam.resolution = (1296, 976)
+    cam.framerate = 15
+    rawCapture = PiRGBArray(cam, size=(1296, 976))
 
     img_counter = 0
 
     while True:
         for frame in cam.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
+            image = cv2.resize(image, (512, 304))
             cv2.imshow("Press Space to take a photo", image)
             rawCapture.truncate(0)
 
@@ -38,3 +39,5 @@ def headshotCapturePi():
             break
 
     cv2.destroyAllWindows()
+    cam.stop_preview()
+    cam.close()

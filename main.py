@@ -1,13 +1,12 @@
 import pickle
 from time import sleep
 
-import facial_req
-import facial_req2
-import headshots
+from imutils.video import VideoStream
+
 # import sensorDetection
 # import servo
 # import test_email
-import train_model
+from Algorithm import headshots_picam, facial_req2, sensorDetection, train_model, servo
 import os
 
 if __name__ == "__main__":
@@ -27,7 +26,7 @@ if __name__ == "__main__":
             break
 
     if pickleFound == False:
-        headshots.headshotCapture()
+        headshots_picam.headshotCapturePi()
         train_model.train_model()
     else:
         train_model.train_model()
@@ -41,20 +40,24 @@ if __name__ == "__main__":
     data = pickle.loads(open(encodingsP, "rb").read())
 
     while application_running:
-        # motionDetected = sensorDetection.detectMotion()
-        # if motionDetected:
-        approvedFace = facial_req2.facial_recognition(data)
-        if approvedFace[0]:
-            print("Approved Face has been found: " + approvedFace[1])
-            # test_email.request_message(1)
-            # servo.Unlock()
-            locked = False
-            print("The door is Unlocked")
-            sleep(15)
-            # servo.Lock()
-            print("The door has Locked")
+        motionDetected = sensorDetection.detectMotion()
+        if motionDetected:
+            vs = VideoStream(usePiCamera=True, framerate=15, resolution=(1296, 976)).start()
+            approvedFace = facial_req2.facial_recognition(data, vs)
+            if approvedFace[0]:
+                print("Approved Face has been found: " + approvedFace[1])
+                # test_email.request_message(1)
+                servo.Unlock()
+                locked = False
+                print("The door is Unlocked")
+                sleep(15)
+                servo.Lock()
+                print("The door has Locked")
 
-        elif not approvedFace[0]:
-            print("Unknown Face Detected!")
-            print("Entrance is not allowed")
-        #     test_email.request_message(2)
+            elif not approvedFace[0]:
+                print("Unknown Face Detected!")
+                print("Entrance is not allowed")
+            #     test_email.request_message(2)
+
+            vs.stop()
+            sleep(5)

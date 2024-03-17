@@ -8,93 +8,105 @@ from types import MethodType
 
 import cv2
 import face_recognition
-import torch
-from facenet_pytorch import InceptionResnetV1, MTCNN
+# import torch
+# from facenet_pytorch import InceptionResnetV1, MTCNN
+import imutils
 from imutils.video import FPS
 from imutils.video import VideoStream
+from api import get_threshold, get_userID
 
 
-# helper function
-def encode(img):
-    res = resnet(torch.Tensor(img))
-    return res
+def callGetUserID(device_id):
+    response = get_userID(device_id)
+    return response
 
 
-def detect_box(self, img, save_path=None):
-    batch_boxes, batch_probs, batch_points = self.detect(img, landmarks=True)
-    if not self.keep_all:
-        batch_boxes, batch_probs, batch_points = self.select_boxes(
-            batch_boxes, batch_probs, batch_points, img, method=self.selection_method
-        )
-    faces = self.extract(img, batch_boxes, save_path)
-    return batch_boxes, faces
+def callGetThreshold(user_id):
+    response = get_threshold(user_id)
+    return response
 
 
-# Load models
-resnet = InceptionResnetV1(pretrained='vggface2').eval()
+# # helper function
+# def encode(img):
+#     res = resnet(torch.Tensor(img))
+#     return res
+#
+#
+# def detect_box(self, img, save_path=None):
+#     batch_boxes, batch_probs, batch_points = self.detect(img, landmarks=True)
+#     if not self.keep_all:
+#         batch_boxes, batch_probs, batch_points = self.select_boxes(
+#             batch_boxes, batch_probs, batch_points, img, method=self.selection_method
+#         )
+#     faces = self.extract(img, batch_boxes, save_path)
+#     return batch_boxes, faces
+#
+#
+# # Load models
+# resnet = InceptionResnetV1(pretrained='vggface2').eval()
+#
+#
+# def detect(cam=0, thres=0.7):
+#     mtcnn = MTCNN(image_size=224, keep_all=True, thresholds=[0.4, 0.5, 0.5], min_face_size=60)
+#     mtcnn.detect_box = MethodType(detect_box, mtcnn)
+#
+#     # Process images
+#     saved_pictures = "./dataset/Zachery"
+#     all_people_faces = {}
+#
+#     for file in os.listdir(saved_pictures):
+#         if file.endswith(".jpg") or file.endswith(".jpeg"):
+#             try:
+#                 person_face = os.path.splitext(file)[0]
+#                 img = cv2.imread(os.path.join(saved_pictures, file))
+#                 cropped = mtcnn(img)
+#                 if cropped is not None:
+#                     # Check the shape of the cropped tensor
+#                     print("Shape of cropped tensor:", cropped.shape)
+#                     all_people_faces[person_face] = encode(cropped)[0, :]
+#             except Exception as e:
+#                 print(f"Error processing {file}: {e}")
+#
+#     vdo = cv2.VideoCapture(cam)
+#     fps = FPS().start()
+#
+#     while vdo.grab():
+#         _, img0 = vdo.retrieve()
+#         batch_boxes, cropped_images = mtcnn.detect_box(img0)
+#
+#         if cropped_images is not None:
+#             for box, cropped in zip(batch_boxes, cropped_images):
+#                 x, y, x2, y2 = [int(x) for x in box]
+#                 img_embedding = encode(cropped.unsqueeze(0))
+#                 detect_dict = {}
+#                 for k, v in all_people_faces.items():
+#                     detect_dict[k] = (v - img_embedding).norm().item()
+#                 min_key = min(detect_dict, key=detect_dict.get)
+#
+#                 if detect_dict[min_key] >= thres:
+#                     min_key = 'Undetected'
+#
+#                 cv2.rectangle(img0, (x, y), (x2, y2), (0, 0, 255), 2)
+#                 cv2.putText(
+#                     img0, min_key, (x + 5, y + 10),
+#                     cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1)
+#
+#         # display
+#         cv2.imshow("output", img0)
+#         if cv2.waitKey(1) == ord('q'):
+#             cv2.destroyAllWindows()
+#             break
+#
+#         # update the FPS counter
+#         fps.update()
+#
+#         # stop the timer and display FPS information
+#     fps.stop()
+#     print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
+#     print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+#
 
-
-def detect(cam=0, thres=0.7):
-    mtcnn = MTCNN(image_size=224, keep_all=True, thresholds=[0.4, 0.5, 0.5], min_face_size=60)
-    mtcnn.detect_box = MethodType(detect_box, mtcnn)
-
-    # Process images
-    saved_pictures = "./dataset/Zachery"
-    all_people_faces = {}
-
-    for file in os.listdir(saved_pictures):
-        if file.endswith(".jpg") or file.endswith(".jpeg"):
-            try:
-                person_face = os.path.splitext(file)[0]
-                img = cv2.imread(os.path.join(saved_pictures, file))
-                cropped = mtcnn(img)
-                if cropped is not None:
-                    # Check the shape of the cropped tensor
-                    print("Shape of cropped tensor:", cropped.shape)
-                    all_people_faces[person_face] = encode(cropped)[0, :]
-            except Exception as e:
-                print(f"Error processing {file}: {e}")
-
-    vdo = cv2.VideoCapture(cam)
-    fps = FPS().start()
-
-    while vdo.grab():
-        _, img0 = vdo.retrieve()
-        batch_boxes, cropped_images = mtcnn.detect_box(img0)
-
-        if cropped_images is not None:
-            for box, cropped in zip(batch_boxes, cropped_images):
-                x, y, x2, y2 = [int(x) for x in box]
-                img_embedding = encode(cropped.unsqueeze(0))
-                detect_dict = {}
-                for k, v in all_people_faces.items():
-                    detect_dict[k] = (v - img_embedding).norm().item()
-                min_key = min(detect_dict, key=detect_dict.get)
-
-                if detect_dict[min_key] >= thres:
-                    min_key = 'Undetected'
-
-                cv2.rectangle(img0, (x, y), (x2, y2), (0, 0, 255), 2)
-                cv2.putText(
-                    img0, min_key, (x + 5, y + 10),
-                    cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1)
-
-        # display
-        cv2.imshow("output", img0)
-        if cv2.waitKey(1) == ord('q'):
-            cv2.destroyAllWindows()
-            break
-
-        # update the FPS counter
-        fps.update()
-
-        # stop the timer and display FPS information
-    fps.stop()
-    print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
-    print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
-
-
-def facial_recognition(data):
+def facial_recognition(data, vs):
     # Initialize 'currentname' to trigger only when a new person is identified.
     currentname = "unknown"
 
@@ -105,27 +117,27 @@ def facial_recognition(data):
     # Set the ser to the followng
     # src = 0 : for the build in single web cam, could be your laptop webcam
     # src = 2 : I had to set it to 2 inorder to use the USB webcam attached to my laptop
-    vs = VideoStream(src=0, framerate=50).start()
-    # vs = VideoStream(usePiCamera=True).start()
-    time.sleep(2.0)
+    # vs = VideoStream(src=0, framerate=50).start()
+    # vs = VideoStream(usePiCamera=True, framerate=50).start()
+
+    time.sleep(5.0)
 
     # start the FPS counter
     fps = FPS().start()
-    startTime = 0
+    startTime = time.time()
 
     # loop over frames from the video file stream
     while True:
         # grab the frame from the threaded video stream and resize it
         # to 500px (to speedup processing)
         frame = vs.read()
-        # frame = imutils.resize(frame, width=500)
-        frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+        frame = imutils.resize(frame, width=500)
+        # frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
         # Detect the fce boxes
         boxes = face_recognition.face_locations(frame)
         # compute the facial embeddings for each face bounding box
         encodings = face_recognition.face_encodings(frame, boxes)
         names = []
-
 
         # loop over the facial embeddings
         for encoding in encodings:
@@ -134,9 +146,6 @@ def facial_recognition(data):
             matches = face_recognition.compare_faces(data["encodings"],
                                                      encoding)
             name = "Unknown"  # if face is not recognized, then print Unknown
-
-            if startTime == 0:
-                startTime = time.time()
 
             # check to see if we have found a match
             if True in matches:
