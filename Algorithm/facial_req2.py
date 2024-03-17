@@ -136,7 +136,7 @@ def facial_recognition(data, vs):
         frame = vs.read()
         frame = imutils.resize(frame, width=500)
         # frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
-        # Detect the fce boxes
+        # Detect the face boxes
         boxes = face_recognition.face_locations(frame)
         # compute the facial embeddings for each face bounding box
         encodings = face_recognition.face_encodings(frame, boxes)
@@ -159,7 +159,7 @@ def facial_recognition(data, vs):
                 counts = {}
 
                 # loop over the matched indexes and maintain a count for
-                # each recognized face face
+                # each recognized face
                 for i in matchedIdxs:
                     name = data["names"][i]
                     counts[name] = counts.get(name, 0) + 1
