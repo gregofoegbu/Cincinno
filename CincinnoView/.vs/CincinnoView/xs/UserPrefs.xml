@@ -1,40 +1,37 @@
 ﻿<Properties StartupConfiguration="{DB8228F7-607E-4F9F-B3C1-EFFD73468EE9}|https">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.CincinnoView PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workbench ActiveDocument="CincinnoView/Views/Image/DisplayHouseholdMembers.cshtml">
     <Files>
-      <File FileName="CincinnoView/Controllers/AccountController.cs" Line="1" Column="1" />
-      <File FileName="CincinnoView/Controllers/ImageController.cs" Line="118" Column="61" />
-      <File FileName="CincinnoView/Controllers/UserController.cs" />
+      <File FileName="CincinnoView/Controllers/AccountController.cs" />
+      <File FileName="CincinnoView/Controllers/ImageController.cs" Line="202" Column="1" />
+      <File FileName="CincinnoView/Controllers/UserController.cs" Line="68" Column="63" />
       <File FileName="CincinnoView/Models/DisplayImageViewModel.cs" Line="1" Column="1" />
-      <File FileName="CincinnoView/Views/Image/DisplayHouseholdMembers.cshtml" Line="7" Column="10" />
       <File FileName="CincinnoView/Views/Image/DisplayImages.cshtml" Line="1" Column="1" />
-      <File FileName="CincinnoView/Views/User/Account.cshtml" Line="19" Column="126" />
-      <File FileName="CincinnoView/wwwroot/css/styles.css" Line="80" Column="23" />
+      <File FileName="CincinnoView/Views/User/Account.cshtml" Line="1" Column="1" />
+      <File FileName="CincinnoView/Views/Image/DisplayHouseholdMembers.cshtml" Line="69" Column="191" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="CincinnoView">
-            <Node name="CincinnoView">
-              <Node name="Controllers" expanded="True" />
+            <Node name="CincinnoView" selected="True">
               <Node name="Models" expanded="True" />
               <Node name="Views" expanded="True">
-                <Node name="Image" expanded="True">
-                  <Node name="DisplayHouseholdMembers.cshtml" selected="True" />
-                </Node>
                 <Node name="User" expanded="True" />
               </Node>
-              <Node name="appsettings.json" expanded="True" />
+              <Node name="wwwroot" expanded="True">
+                <Node name="js" expanded="True" />
+              </Node>
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.CincinnoView PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>

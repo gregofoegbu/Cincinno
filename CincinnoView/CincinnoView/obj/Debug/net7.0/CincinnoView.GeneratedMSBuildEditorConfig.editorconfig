@@ -12,7 +12,7 @@ build_property.RootNamespace = CincinnoView
 build_property.ProjectDir = /Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
 build_property.MSBuildProjectDirectory = /Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView
 build_property._RazorSourceGeneratorDebug = 
 
@@ -56,8 +56,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9BY2NvdW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/Views/User/activity.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9hY3Rpdml0eS5jc2h0bWw=
+[/Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/Views/User/Activity.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9BY3Rpdml0eS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/gregoryofoegbu/Documents/GitHub/CincinnoProject/CincinnoView/CincinnoView/Views/_ViewImports.cshtml]

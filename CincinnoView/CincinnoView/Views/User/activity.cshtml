@@ -1,66 +1,36 @@
-﻿@{
+﻿@model List<ActivityViewModel>
+@{
     ViewBag.Title = "Activity Log";
 }
 <div><h2>Activity Log</h2><br /></div>
-<table class="table table-bordered table-responsive table-hover">
-    <tr>
-        <th>Status </th>
-        <th>Date </th>
-        <th>Time</th>
-    </tr>
-    <tr>
-        <td>Access Denied</td>
-        <td>22-05-2023</td>
-        <td>22:30</td>
-    </tr>
-    <tr>
-        <td>Access Granted</td>
-        <td>22-05-2023</td>
-        <td>22:15</td>
-    </tr>
-    <tr>
-        <td>Access Granted</td>
-        <td>22-05-2023</td>
-        <td>22:05</td>
-    </tr>
-    <tr>
-        <td>Access Granted</td>
-        <td>22-05-2023</td>
-        <td>21:30</td>
-    </tr>
-    <tr>
-        <td>Access Granted</td>
-        <td>22-05-2023</td>
-        <td>21:00</td>
-    </tr>
-    <tr>
-        <td>Access Granted</td>
-        <td>22-05-2023</td>
-        <td>3:57</td>
-    </tr>
-    <tr>
-        <td>Access Granted</td>
-        <td>22-05-2023</td>
-        <td>2:03</td>
-    </tr>
-    <tr>
-        <td>Access Denied</td>
-        <td>22-05-2023</td>
-        <td>2:00</td>
-    </tr>
-    <tr>
-        <td>Access Granted</td>
-        <td>22-05-2023</td>
-        <td>12:46</td>
-    </tr>
-    <tr>
-        <td>Access Granted</td>
-        <td>22-05-2023</td>
-        <td>12:15</td>
-    </tr>
-    <tr>
-        <td>Access Denied</td>
-        <td>22-05-2023</td>
-        <td>9:00</td>
-    </tr>
-</table> 
+@{ if (Model == null || Model.Count == 0)
+{
+        <h6>No log to display</h6>
+} else {
+
+        <table class="table table-bordered table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>Status </th>
+                    <th>Member</th>
+                    <th>Date </th>
+                    <th>Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ foreach (var log in Model)
+                    {
+                        <tr>
+                            @{ if (log.Status == LogStatus.AccessGranted) {<td>Access Granted</td>} else {<td>Access Denied</td> } }
+                            <td>@log.MemberName</td>
+                            <td>@DateOnly.FromDateTime(log.AccessTime)</td>
+                            <td>@TimeOnly.FromDateTime(log.AccessTime)</td>
+                            <td><a href="@Url.Action("DeleteLog", new { logId = log.Id })"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table> 
+}   
+}

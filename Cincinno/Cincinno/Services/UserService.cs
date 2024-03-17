@@ -14,8 +14,9 @@ namespace Cincinno.Services
             _dbconnection = new NpgsqlConnection(configuration.GetConnectionString("CincinnoCon"));
         }
 
-        public void SaveUser(UserModel user)
+        public bool SaveUser(UserModel user)
         {
+            int a;
             _dbconnection.Open();
 
             using (var cmd = new NpgsqlCommand("INSERT INTO users (user_id, user_name, address) VALUES (@user_id, @user_name, @address)", _dbconnection))
@@ -24,29 +25,33 @@ namespace Cincinno.Services
                 cmd.Parameters.AddWithValue("user_name", user.Username);
                 cmd.Parameters.AddWithValue("address", user.Address);
 
-                cmd.ExecuteNonQuery();
+                a = cmd.ExecuteNonQuery();
             }
 
             _dbconnection.Close();
+
+            return a != 0;
         }
 
-        public void DeleteUser(Guid userId)
+        public bool DeleteUser(Guid userId)
         {
+            int a, a1;
             _dbconnection.Open();
 
             using (var cmd = new NpgsqlCommand("DELETE FROM users WHERE user_id = @id", _dbconnection))
             {
                 cmd.Parameters.AddWithValue("id", userId);
-                cmd.ExecuteNonQuery();
+                a1 = cmd.ExecuteNonQuery();
             }
 
             using (var cmd = new NpgsqlCommand("DELETE FROM auth WHERE user_id = @id", _dbconnection))
             {
                 cmd.Parameters.AddWithValue("id", userId);
-                cmd.ExecuteNonQuery();
+                a = cmd.ExecuteNonQuery();
             }
 
             _dbconnection.Close();
+            return a != 0 && a1 != 0;
         }
 
         public UserModel GetUser(Guid userId)
@@ -70,7 +75,7 @@ namespace Cincinno.Services
                             Email = reader.GetString(reader.GetOrdinal("email")),
                             Fullname = reader.GetString(reader.GetOrdinal("fullname")),
                             RegisteredDevices = reader.GetInt32(reader.GetOrdinal("registered_devices")),
-                            DeviceThreshold = reader.GetInt32(reader.GetOrdinal("threshold"))                            
+                            DeviceThreshold = reader.GetInt32(reader.GetOrdinal("threshold"))
                         };
                     }
                 }
@@ -90,7 +95,7 @@ namespace Cincinno.Services
                 command.Parameters.AddWithValue("@id", userId);
                 a = command.ExecuteNonQuery();
             }
-         
+
             return a != 0;
         }
 
@@ -121,10 +126,10 @@ namespace Cincinno.Services
 
             using (var cmd = new NpgsqlCommand("INSERT INTO user_members (user_id, member_name) VALUES (@user_id, @member_name)", _dbconnection))
             {
-                cmd.Parameters.AddWithValue("user_id",userId);
+                cmd.Parameters.AddWithValue("user_id", userId);
                 cmd.Parameters.AddWithValue("member_name", memberName);
 
-                a  = cmd.ExecuteNonQuery();
+                a = cmd.ExecuteNonQuery();
             }
 
             _dbconnection.Close();
@@ -161,7 +166,7 @@ namespace Cincinno.Services
             int a;
             _dbconnection.Open();
 
-            using (var cmd = new NpgsqlCommand("DELETE FROM user_member WHERE user_id = @id AND member_name = @membername", _dbconnection))
+            using (var cmd = new NpgsqlCommand("DELETE FROM user_members WHERE user_id = @id AND member_name = @membername", _dbconnection))
             {
                 cmd.Parameters.AddWithValue("id", userId);
                 cmd.Parameters.AddWithValue("membername", membername);
@@ -171,6 +176,73 @@ namespace Cincinno.Services
 
             _dbconnection.Close();
             return a != 0;
+        }
+
+        public bool AddActivityLog(ActivityModel activity)
+        {
+            string status;
+            if (activity.Status == LogStatus.AccessGranted)
+            {
+                status = "Access Granted";
+            } else { status = "Access Denied"; }
+            int a;
+            _dbconnection.Open();
+
+            using (var cmd = new NpgsqlCommand("INSERT INTO activity (user_id, member_name, access_time, log_status) VALUES (@user_id, @member_name, @access_time, @status)", _dbconnection))
+            {
+                cmd.Parameters.AddWithValue("user_id", activity.UserId);
+                cmd.Parameters.AddWithValue("member_name", activity.MemberName);
+                cmd.Parameters.AddWithValue("access_time", activity.AccessTime);
+                cmd.Parameters.AddWithValue("status", status);
+
+                a = cmd.ExecuteNonQuery();
+            }
+
+            _dbconnection.Close();
+            return a != 0;
+        }
+
+        public bool DeleteActivityLog(int logId)
+        {
+            int a;
+            _dbconnection.Open();
+
+            using (var cmd = new NpgsqlCommand("DELETE FROM activity WHERE id = @id", _dbconnection))
+            {
+                cmd.Parameters.AddWithValue("id", logId);
+
+                a = cmd.ExecuteNonQuery();
+            }
+
+            _dbconnection.Close();
+            return a != 0;
+        }
+
+        public List<ActivityModel> GetUserLog(Guid userId)
+        {
+            var logs = new List<ActivityModel>();
+            _dbconnection.Open();
+
+            using (var cmd = new NpgsqlCommand("SELECT * FROM activity WHERE user_id = @id", _dbconnection))
+            {
+                cmd.Parameters.AddWithValue("id", userId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        var log = new ActivityModel
+                        {
+                            UserId = reader.GetGuid(reader.GetOrdinal("user_id")),
+                            MemberName = reader.GetString(reader.GetOrdinal("member_name")),
+                            AccessTime = reader.GetDateTime(reader.GetOrdinal("access_time")),
+                            Status = reader.GetString(reader.GetOrdinal("log_status")) == "Access Granted" ? LogStatus.AccessGranted : LogStatus.AccessDenied
+                        };
+                        logs.Add(log);
+                    }
+                }
+            }
+            _dbconnection.Close();
+            return logs;
         }
     }
 }

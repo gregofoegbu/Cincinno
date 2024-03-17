@@ -54,3 +54,18 @@ function validateUserInput() {
     var addUserButton = document.getElementById('addUserButton');
     addUserButton.disabled = userInput.trim() === '';
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    var deleteLinks = document.querySelectorAll(".delete-member");
+    deleteLinks.forEach(function (link) {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            var memberName = link.getAttribute("data-member");
+            var url = link.getAttribute("data-delete-url")
+            if (confirm("Are you sure you want to delete member " + memberName + "?")) {
+                // If user confirms, redirect to delete action
+                window.location.href = url + '?memberName=' + encodeURIComponent(memberName);
+            }
+        });
+    });
+});

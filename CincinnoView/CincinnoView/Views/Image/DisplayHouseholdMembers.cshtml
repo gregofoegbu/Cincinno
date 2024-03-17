@@ -66,7 +66,7 @@
             else
             {
                 <div>
-                    <h5><i class="fa-solid fa-user"></i> @user.MemberName <a href="@Url.Action("DeleteUser", new { name = user.MemberName })"><i class="fa fa-trash"></i></a></h5>
+                    <h5><i class="fa-solid fa-user"></i> @user.MemberName <a href="#" class="delete-member" data-member="@user.MemberName" data-delete-url="@Url.Action("DeleteMember", "Image")"><i class="fa fa-trash"></i></a></h5>
                     <div class="image-container">
                         @foreach (var image in user.Images)
                         {

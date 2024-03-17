@@ -9,13 +9,19 @@ using CincinnoView.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-
+using NToastNotify;
 
 namespace CincinnoView.Controllers
 {
     [CustomAuthorize]
     public class UserController : Controller
     {
+        private readonly IToastNotification _toasty;
+
+        public UserController(IToastNotification toasty)
+        {
+            _toasty = toasty;
+        }
         public IActionResult Account()
         {
             if(HttpContext.Session.GetString("AccessToken") == null)
@@ -40,7 +46,36 @@ namespace CincinnoView.Controllers
 
         public IActionResult Activity()
         {
-            return View();
+            Guid userId = Guid.Parse(HttpContext.Session.GetString("AccessToken")!);
+
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri($"https://localhost:7240/api/User/getuserlog/{userId}")
+            };
+            var response = httpClient.GetAsync(httpClient.BaseAddress).Result;
+
+            List<ActivityViewModel> logs = response.Content.ReadFromJsonAsync<List<ActivityViewModel>>().Result!;
+            return View(logs);
+        }
+
+        public async Task<IActionResult> DeleteLog(int id)
+        {
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri($"https://localhost:7240/api/User/deletelog/{id}")
+            };
+            var response = httpClient.DeleteAsync(httpClient.BaseAddress).Result;
+            var success = await response.Content.ReadFromJsonAsync<bool>();
+
+            if (success)
+            {
+                _toasty.AddSuccessToastMessage("Log Deleted");
+            }
+            else
+            {
+                _toasty.AddErrorToastMessage("Error deleting log");
+            }
+            return RedirectToAction("Activity");
         }
 
         public async Task<IActionResult> UpdateThreshold([FromQuery] int thresholdValue)
@@ -58,15 +93,15 @@ namespace CincinnoView.Controllers
             var success = await response.Content.ReadFromJsonAsync<bool>();
             if (success)
             {
-                TempData["UpdateThresh"] = "Updated Device Threshold";
+                _toasty.AddSuccessToastMessage("Threshold updated");
             } else
             {
-                TempData["UpdateThresh"] = "Failed To update threshold";
+                _toasty.AddErrorToastMessage("Error updating threshold");
             }
             return RedirectToAction("Account");
         }
 
-        public IActionResult AddHouseMember(string userName)
+        public async Task<IActionResult> AddHouseMember(string userName)
         {
             var httpClient = new HttpClient
             {
@@ -79,6 +114,15 @@ namespace CincinnoView.Controllers
             };
 
             var response = httpClient.PostAsJsonAsync(httpClient.BaseAddress, memberRequest).Result;
+            var success = await response.Content.ReadFromJsonAsync<bool>();
+            if (success)
+            {
+                _toasty.AddSuccessToastMessage($"New Member: {userName} added");
+            }
+            else
+            {
+                _toasty.AddErrorToastMessage("Error adding new user");
+            }
 
             return RedirectToAction("DisplayHouseholdMembers", "Image");
         }

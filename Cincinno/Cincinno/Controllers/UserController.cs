@@ -27,8 +27,8 @@ namespace Cincinno.Controllers
         [HttpPost("createuser")]
         public IActionResult CreateUser([FromBody] UserModel user)
         {
-            _userService.SaveUser(user);
-            return Ok("User Saved Succesfully");
+            var success = _userService.SaveUser(user);
+            return Ok(success);
         }
 
         [HttpPost("updateuserthreshold")]
@@ -48,7 +48,7 @@ namespace Cincinno.Controllers
         [HttpGet("getusermembers/{userId}")]
         public IActionResult GetUserMembers(Guid userId)
         {
-            List<String> members = _userService.GetHouseholdMembers(userId);
+            List<string> members = _userService.GetHouseholdMembers(userId);
             return Ok(members);
         }
 
@@ -60,10 +60,32 @@ namespace Cincinno.Controllers
         }
 
         [HttpDelete("deletemember")]
-        public IActionResult DeleteMember([FromBody] MembersRequest members)
+        public IActionResult DeleteMember([FromBody] MembersRequest member)
         {
-            var success = _userService.DeleteMember(members.UserId, members.MemberName);
+            _imageService.DeleteMemberImages(member.MemberName);
+            var success = _userService.DeleteMember(member.UserId, member.MemberName);
             return Ok(success);
+        }
+
+        [HttpPost("addlog")]
+        public IActionResult AddActivityLog([FromBody] ActivityModel log)
+        {
+            var success = _userService.AddActivityLog(log);
+            return Ok(success);
+        }
+
+        [HttpDelete("deletelog/{logId}")]
+        public IActionResult DeleteActivityLog(int logId)
+        {
+            var success = _userService.DeleteActivityLog(logId);
+            return Ok(success);
+        }
+
+        [HttpGet("getuserlog/{userId}")]
+        public IActionResult GetUserLog(Guid userId)
+        {
+            var log = _userService.GetUserLog(userId);
+            return Ok(log);
         }
     }
 

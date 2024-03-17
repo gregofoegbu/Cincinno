@@ -1,28 +1,31 @@
 ﻿<Properties StartupConfiguration="{2956F5EA-35EB-4046-B064-B852316C7660}|https">
-  <MonoDevelop.Ide.ItemProperties.Cincinno PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Cincinno/Models/UserModel.cs">
+  <MonoDevelop.Ide.ItemProperties.Cincinno PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Cincinno/Services/UserService.cs">
     <Files>
-      <File FileName="Cincinno/Services/UserService.cs" Line="91" Column="17" />
+      <File FileName="Cincinno/Services/UserService.cs" Line="164" Column="73" />
       <File FileName="Cincinno/Models/UserModel.cs" Line="20" Column="41" />
+      <File FileName="Cincinno/Models/ActivityModel.cs" Line="10" Column="1" />
+      <File FileName="Cincinno/Services/ImageService.cs" Line="161" Column="1" />
+      <File FileName="Cincinno/Controllers/UserController.cs" Line="98" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Cincinno">
-            <Node name="Cincinno">
-              <Node name="Models">
-                <Node name="UserModel.cs" selected="True" />
-              </Node>
+            <Node name="Cincinno" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Services" expanded="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
 </Properties>

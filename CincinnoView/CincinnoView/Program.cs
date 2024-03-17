@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using NToastNotify;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddNToastNotifyToastr(new ToastrOptions {
+    ProgressBar = false,
+    PositionClass = ToastPositions.TopRight
+});
 
 builder.Services.AddSession();
 
@@ -16,6 +19,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.LoginPath = "/Account/Login";
 });
+
 
 var app = builder.Build();
 

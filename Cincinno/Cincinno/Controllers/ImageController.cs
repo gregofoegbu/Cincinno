@@ -17,6 +17,7 @@ namespace Cincinno.Controllers
         [HttpPost("addphoto")]
         public async Task<IActionResult> UploadImage([FromForm] IFormFile file, string userId, string name)
         {
+            bool success;
             if(file == null || file.Length == 0)
             {
                 return BadRequest("Invalid file.");
@@ -34,18 +35,17 @@ namespace Cincinno.Controllers
                     Name = name
                 };
 
-                // Save the image to the database
-                _imageService.SaveImage(image);
+                success = _imageService.SaveImage(image);
             }
 
-            return Ok("Image uploaded successfully.");
+            return Ok(success);
         }
 
         [HttpDelete("deletephoto/{id}")]
         public IActionResult DeleteUserPhoto(int id)
         {
-            _imageService.DeleteImage(id);
-            return Ok("Image deleted succesfully");
+            var success = _imageService.DeleteImage(id);
+            return Ok(success);
         }
 
         [HttpGet("getimages")]

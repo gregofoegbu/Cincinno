@@ -9,26 +9,35 @@ using CincinnoView.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using NToastNotify;
 
 namespace CincinnoView.Controllers
 {
     [CustomAuthorize]
     public class ImageController : Controller
     {
+        private readonly IToastNotification _toasty;
+
+        public ImageController(IToastNotification toasty)
+        {
+            _toasty = toasty;
+        }
         public IActionResult UploadImage()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadImage(IFormFile file, string imageName)
+        public async Task<IActionResult> UploadImage(IFormFile file, string memberName)
         {
-            if (await SaveImageApiCall(file, imageName))
+            if (await SaveImageApiCall(file, memberName))
             {
+                _toasty.AddSuccessToastMessage("Image Saved Succesfuly");
                 return RedirectToAction("DisplayHouseholdMembers");
             }
             else
             {
+                _toasty.AddErrorToastMessage("Error Saving Image");
                 return RedirectToAction("DisplayHouseholdMembers");
             }
         }
@@ -111,9 +120,9 @@ namespace CincinnoView.Controllers
             var response = httpClient.DeleteAsync(httpClient.BaseAddress).Result;
             if (response.IsSuccessStatusCode)
             {
-                TempData["DeleteResult"] = "Image Deleted";
+                _toasty.AddSuccessToastMessage("Image Deleted Successfully");
             } else {
-                TempData["DeleteResult"] = "Error deleting image";
+                _toasty.AddErrorToastMessage("Error deleting image");
             }
             return RedirectToAction("DisplayHouseholdMembers");
         }
@@ -168,6 +177,34 @@ namespace CincinnoView.Controllers
         public IActionResult DisplayImageFromData(byte[] data)
         {
             return File(data, "image/png");
+        }
+
+        public async Task<IActionResult> DeleteMember(string memberName)
+        {
+            var userId = Guid.Parse(HttpContext.Session.GetString("AccessToken")!);
+            var member = new MembersRequest
+            {
+                UserId = userId,
+                MemberName = memberName
+            };
+            var json = JsonConvert.SerializeObject(member);
+            using var httpClient = new HttpClient();
+            var uri = new Uri($"https://localhost:7240/api/User/deletemember/");
+
+            var request = new HttpRequestMessage(HttpMethod.Delete, uri)
+            {
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            };
+            var response = await httpClient.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                _toasty.AddSuccessToastMessage("Member Deleted Succesfully");
+            }
+            else
+            {
+                _toasty.AddErrorToastMessage("Error deleting member");
+            }
+            return RedirectToAction("DisplayHouseholdMembers");
         }
     }
 }

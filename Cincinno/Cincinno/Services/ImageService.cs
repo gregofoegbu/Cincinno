@@ -14,8 +14,9 @@ namespace Cincinno.Services
 			_dbconnection = new NpgsqlConnection(configuration.GetConnectionString("CincinnoCon"));
 		}
 
-		public void SaveImage(ImageModel image)
+		public bool SaveImage(ImageModel image)
 		{
+            int a;
 			_dbconnection.Open();
 
             using (var cmd = new NpgsqlCommand("INSERT INTO images (user_id, filename, data, name) VALUES (@user_id, @filename, @data, @name)", _dbconnection))
@@ -25,23 +26,26 @@ namespace Cincinno.Services
                 cmd.Parameters.AddWithValue("data", image.Data);
                 cmd.Parameters.AddWithValue("name", image.Name);
 
-                cmd.ExecuteNonQuery();
+                a = cmd.ExecuteNonQuery();
             }
 
             _dbconnection.Close();
+            return a != 0;
         }
 
-		public void DeleteImage(int id)
+		public bool DeleteImage(int id)
 		{
+            int a;
             _dbconnection.Open();
 
             using (var cmd = new NpgsqlCommand("DELETE FROM images WHERE id = @id", _dbconnection))
             {
                 cmd.Parameters.AddWithValue("id", id);
-                cmd.ExecuteNonQuery();
+                a = cmd.ExecuteNonQuery();
             }
 
             _dbconnection.Close();
+            return a != 0;
         }
 
         public List<ImageModel> GetImages()
@@ -131,17 +135,34 @@ namespace Cincinno.Services
             return images;
         }
 
-        public void DeleteUserImages(Guid userId)
+        public bool DeleteUserImages(Guid userId)
         {
+            int a;
             _dbconnection.Open();
 
             using (var cmd = new NpgsqlCommand("DELETE FROM images WHERE user_id = @userId", _dbconnection))
             {
                 cmd.Parameters.AddWithValue("userId", userId);
-                cmd.ExecuteNonQuery();
+                a = cmd.ExecuteNonQuery();
             }
 
             _dbconnection.Close();
+            return a != 0;
+        }
+
+        public bool DeleteMemberImages(string memberName)
+        {
+            int a;
+            _dbconnection.Open();
+
+            using (var cmd = new NpgsqlCommand("DELETE FROM images WHERE name = @member_name", _dbconnection))
+            {
+                cmd.Parameters.AddWithValue("member_name", memberName);
+                a = cmd.ExecuteNonQuery();
+            }
+
+            _dbconnection.Close();
+            return a != 0;
 
         }
     }

@@ -8,16 +8,18 @@ using CincinnoView.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-
+using NToastNotify;
 
 namespace CincinnoView.Controllers
 {
     public class AccountController : Controller
     {
         private readonly HttpClient _httpClient;
+        private readonly IToastNotification _toasty;
 
-        public AccountController()
+        public AccountController(IToastNotification toasty)
         {
+            _toasty = toasty;
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri("https://localhost:7240/api/Auth")
@@ -65,7 +67,6 @@ namespace CincinnoView.Controllers
                 var principal = new ClaimsPrincipal(identity);
 
                 HttpContext.SignInAsync(principal);
-
                 return RedirectToAction("Account", "User");
             }
 
@@ -119,7 +120,7 @@ namespace CincinnoView.Controllers
                 var principal = new ClaimsPrincipal(identity);
 
                 HttpContext.SignInAsync(principal);
-
+                _toasty.AddSuccessToastMessage("Account created successfully");
                 return RedirectToAction("Account", "User");
             }
 
