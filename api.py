@@ -1,10 +1,8 @@
-from flask import Flask, request, jsonify,send_file
 import requests
 from io import BytesIO
 import urllib3
 import os
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-app = Flask(__name__)
 
 BASE_URL = "https://3.98.138.165/api/"
 DATASET_DIR = "dataset"
@@ -50,7 +48,6 @@ DATASET_DIR = "dataset"
 
 import os
 
-@app.route('/api/Image', methods=['GET'])
 def get_images():
     response = requests.get(f"{BASE_URL}/Image/getImages", verify=False)
     if response.status_code == 200:
@@ -72,42 +69,43 @@ def get_images():
         with open(image_path, "wb") as f:
             f.write(image_bytes)
 
-        return jsonify({"message": "Image saved successfully", "image_path": image_path}), 200
+        return ({"message": "Image saved successfully", "image_path": image_path})
     else:
-        return jsonify({"error": "Failed to get images"}), response.status_code
+        return({"error": "Failed to get images"})
 
 
-@app.route('/api/User', methods=['GET'])
 def get_userID():
-    deviceId = request.args.get('deviceId')
+    # Reading deviceId from a text file
+    file_path = os.path.join(os.path.dirname(__file__), 'device_id.txt')
+    with open(file_path, 'r') as file:
+        deviceId = file.read().strip()
     if deviceId:
-        response = requests.get(f"{BASE_URL}/User/getuserid/{deviceId}")
+        response = requests.get(f"{BASE_URL}User/getuserId/{deviceId}", verify=False)
         if response.status_code == 200:
-            userId = response.json()
-            return jsonify({"message": "User ID retrieved successfully", "userId": userId}), 200
+            json_data = response.json()
+            userId = json_data
+            return userId
         else:
-            return jsonify({"error": "Failed to retrieve user ID"}), response.status_code
+            return ({"error": "Failed to retrieve user ID"})
     else:
-        return jsonify({"error": "Device ID is required"}), 400
+        return ({"error": "Device ID is required"})
 
-@app.route('/api/User/GetUserThreshold', methods=['GET'])
 def get_threshold():
-    user_id = request.args.get('user_id')
-    response = requests.get(f"{BASE_URL}User/GetUserThreshold/{user_id}", verify=False)
+    user_id = get_userID()
+    response = requests.get(f"{BASE_URL}User/GetUser/{user_id}", verify=False)
     if response.status_code == 200:
         try:
             json_data = response.json()
             if isinstance(json_data, dict):
-                threshold = json_data.get('threshold')
+                threshold = json_data.get('deviceThreshold')
                 if threshold is not None:
-                    return jsonify({"message": "Threshold retrieved successfully", "threshold": threshold}), 200
+                    return (threshold)
                 else:
-                    return jsonify({"error": "Threshold is missing in the response"}), 400
+                    return ({"error": "Threshold is missing in the response"})
             else:
-                return jsonify({"error": "Response is not a JSON object"}), 400
+                return ({"error": "Response is not a JSON object"})
         except ValueError:
-            return jsonify({"error": "Response content is not in JSON format"}), 400
+            return ({"error": "Response content is not in JSON format"})
     else:
-        return jsonify({"error": "Failed to get threshold"}), response.status_code
-if __name__ == '__main__':
-    app.run(port=433)
+        return ({"error": "Failed to get threshold"})
+
