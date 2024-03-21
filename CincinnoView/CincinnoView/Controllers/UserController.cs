@@ -36,7 +36,7 @@ namespace CincinnoView.Controllers
 
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri($"https://localhost:7240/api/User/getuser/{userId}")
+                BaseAddress = new Uri($"http://localhost:8050/api/User/getuser/{userId}")
             };
             var response = httpClient.GetAsync(httpClient.BaseAddress).Result;
 
@@ -50,7 +50,7 @@ namespace CincinnoView.Controllers
 
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri($"https://localhost:7240/api/User/getuserlog/{userId}")
+                BaseAddress = new Uri($"http://localhost:8050/api/User/getuserlog/{userId}")
             };
             var response = httpClient.GetAsync(httpClient.BaseAddress).Result;
 
@@ -62,7 +62,7 @@ namespace CincinnoView.Controllers
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri($"https://localhost:7240/api/User/deletelog/{id}")
+                BaseAddress = new Uri($"http://localhost:8050/api/User/deletelog/{id}")
             };
             var response = httpClient.DeleteAsync(httpClient.BaseAddress).Result;
             var success = await response.Content.ReadFromJsonAsync<bool>();
@@ -82,7 +82,7 @@ namespace CincinnoView.Controllers
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7240/api/User/UpdateUserThreshold")
+                BaseAddress = new Uri("http://localhost:8050/api/User/UpdateUserThreshold")
             };
             var values = new ThresholdUpdateRequest
             {
@@ -105,7 +105,7 @@ namespace CincinnoView.Controllers
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7240/api/User/addmember")
+                BaseAddress = new Uri("http://localhost:8050/api/User/addmember")
             };
             var memberRequest = new MembersRequest
             {

@@ -22,7 +22,7 @@ namespace CincinnoView.Controllers
             _toasty = toasty;
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7240/api/Auth")
+                BaseAddress = new Uri("http://localhost:8050/api/Auth")
             };
         }
 
@@ -41,7 +41,7 @@ namespace CincinnoView.Controllers
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7240/api/Auth/Login")
+                BaseAddress = new Uri("http://localhost:8050/api/Auth/Login")
             };
             var credentials = new LoginViewModel
             {
@@ -99,7 +99,7 @@ namespace CincinnoView.Controllers
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7240/api/Auth/Register")
+                BaseAddress = new Uri("http://localhost:8050/api/Auth/Register")
             };
 
             var response = _httpClient.PostAsJsonAsync(httpClient.BaseAddress, model).Result;

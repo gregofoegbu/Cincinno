@@ -49,7 +49,8 @@ DATASET_DIR = "dataset"
 import os
 
 def get_images():
-    response = requests.get(f"{BASE_URL}/Image/getImages", verify=False)
+    user_id = get_userID()
+    response = requests.get(f"{BASE_URL}Image/getImages{user_id}", verify=False)
     if response.status_code == 200:
         # Assuming the response contains image data in bytes
         image_bytes = response.content

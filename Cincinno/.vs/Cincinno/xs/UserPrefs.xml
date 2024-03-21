@@ -1,20 +1,29 @@
 ﻿<Properties StartupConfiguration="{2956F5EA-35EB-4046-B064-B852316C7660}|https">
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Cincinno PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Cincinno/Services/UserService.cs">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Cincinno/Controllers/UserController.cs">
     <Files>
-      <File FileName="Cincinno/Services/UserService.cs" Line="164" Column="73" />
-      <File FileName="Cincinno/Models/UserModel.cs" Line="20" Column="41" />
-      <File FileName="Cincinno/Models/ActivityModel.cs" Line="10" Column="1" />
-      <File FileName="Cincinno/Services/ImageService.cs" Line="161" Column="1" />
-      <File FileName="Cincinno/Controllers/UserController.cs" Line="98" Column="1" />
+      <File FileName="Cincinno/Models/UserModel.cs" />
+      <File FileName="Cincinno/Models/ActivityModel.cs" />
+      <File FileName="Cincinno/Services/ImageService.cs" />
+      <File FileName="Cincinno/Controllers/UserController.cs" Line="52" Column="32" />
+      <File FileName="Cincinno/Controllers/ImageController.cs" Line="58" Column="35" />
+      <File FileName="Cincinno/Controllers/AuthController.cs" />
+      <File FileName="Cincinno/Services/DeviceService.cs" />
+      <File FileName="Cincinno/Services/AuthService.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Cincinno">
+          <Node name="Cincinno" expanded="True">
             <Node name="Cincinno" expanded="True">
-              <Node name="Controllers" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="UserController.cs" selected="True" />
+              </Node>
               <Node name="Models" expanded="True" />
               <Node name="Services" expanded="True" />
             </Node>
@@ -23,9 +32,5 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Cincinno PreferredExecutionTarget="/Applications/Google Chrome.app" />
 </Properties>
