@@ -124,7 +124,7 @@ def test_get_threshold():
         print("Response content is not in JSON format")
 
 if __name__ == "__main__":
-    #test_get_images()
+    test_get_images()
     test_get_userID()
     test_get_threshold()
     #test_get_images1()

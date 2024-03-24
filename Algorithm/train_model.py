@@ -8,7 +8,11 @@ import pickle
 import cv2
 import os
 
+from Algorithm.compress import compressPhotos
+
+
 def train_model():
+	compressPhotos()
 
 	# our images are located in the dataset folder
 	print("[INFO] start processing faces...")

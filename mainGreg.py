@@ -1,22 +1,23 @@
 import pickle
+import shutil
+from pathlib import Path
 from time import sleep
-
+import os
 from imutils.video import VideoStream
 
+import api
 # import sensorDetection
 # import servo
 # import test_email
-from Algorithm import headshots, facial_req2, train_model
+from Algorithm import headshots, facial_recognition, train_model
 import os
 
 if __name__ == "__main__":
-    # headshotAddition = input('Do you need to add additional people? Please enter 1 for Yes and 2 for No\n')
-    # headshotAdditionInteger = int(headshotAddition)
-    # while (headshotAdditionInteger != 1) and (headshotAdditionInteger != 2):
-    #     headshotAdditionInteger = int(input('Sorry that is an invalid response. Please enter 1 for Yes and 2 for No\n'))
 
     application_running = True
     pickleFound = False
+    DATASET_DIR = "dataset"
+
 
     directory = os.getcwd()
 
@@ -29,6 +30,10 @@ if __name__ == "__main__":
         headshots.headshotCapture()
         train_model.train_model()
     else:
+        if (os.path.isdir(DATASET_DIR) == True):
+            shutil.rmtree(DATASET_DIR)
+            Path("dataset/").mkdir(parents=True, exist_ok=True)
+        api.get_images()
         train_model.train_model()
 
     # Determine faces from encodings.pickle file model created from train_model.py
@@ -39,12 +44,14 @@ if __name__ == "__main__":
     print("[INFO] loading encodings + face detector...")
     data = pickle.loads(open(encodingsP, "rb").read())
 
+    threshold = api.get_threshold()
+
     while application_running:
         # motionDetected = sensorDetection.detectMotion()
         # if motionDetected:
             # vs = VideoStream(usePiCamera=True, framerate=15, resolution=(1296, 976)).start()
             vs = VideoStream(src=0, framerate=50).start()
-            approvedFace = facial_req2.facial_recognition(data, vs)
+            approvedFace = facial_recognition.facial_recognition(data, vs, threshold)
             if approvedFace[0]:
                 print("Approved Face has been found: " + approvedFace[1])
                 # test_email.request_message(1)

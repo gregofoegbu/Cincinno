@@ -1,10 +1,10 @@
-import requests
-from io import BytesIO
-import urllib3
-import os
-from PIL import Image
-from io import BytesIO
 import base64
+from io import BytesIO
+
+import requests
+import urllib3
+from PIL import Image
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 BASE_URL = "https://3.98.138.165/api/"
@@ -70,8 +70,10 @@ def get_images():
             assert os.path.isdir(user_dir)
 
             image = Image.open(BytesIO(image_data))
+            extension = os.path.splitext(filename)[1]
+            filename = os.path.splitext(filename)[0]
 
-            image_path = os.path.join(user_dir, str(image_id) + filename)
+            image_path = os.path.join(user_dir, 'image' + str(image_id) + extension)
             image.save(image_path)
 
         return ({"message": "Image saved successfully", "image_path": image_path})
